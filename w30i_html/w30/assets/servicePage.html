@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>w30</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/jquery.rateyo.min.css">
+	<link rel="stylesheet"  href="assets/css/docs.css"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="container servicePage">
+		<header>
+			<input type="checkbox" name="" id="checkMenu">
+			<label for="checkMenu"><i class="fa fa-bars menu fa-2x" aria-hidden="true"></i></label>
+			<h2 id="catagorySelect">Loading...</h2>
+			<i class="fa fa-user user" aria-hidden="true"></i>
+			<nav class="mynav">
+				<ul>
+					<li class="delay-05"><a href="#" class="menuList1"></a></li>
+					<li><a href="#" class="menuList2 hairsalons"></a></li>
+					<li><a href="#" class="menuList3 spas"></a></li>
+					<li><a href="#" class="menuList4 dentists"></a></li>
+					<li><a href="#" class="menuList5 carservices"></a></li>
+					<li><a href="#" class="menuList6 physicians"></a></li>
+					<li><a href="#" class="menuList7 attorneys"></a></li>
+				</ul>
+				<a href="#" class="help"></a>
+				<a href="#" class="settings"></a>
+			</nav>
+		</header>
+		<div style="position: relative;">
+			<div class="rangeSlidesSec">
+				<div class="range-slider vertical-range slideMin" data-slider data-options="display_selector:#sliderOutput2;vertical:true;start:10;end:60;">
+					<span class="range-slider-handle" role="slider" tabindex="0" id="sliderOutput2"></span>
+					<span class="range-slider-active-segment"></span>
+				</div>
+				<div class="range-slider vertical-range slideMil" data-slider data-options="display_selector:#sliderOutput3;vertical:true;start:0;end:60;">
+					<span class="range-slider-handle" role="slider" tabindex="0" id="sliderOutput3" ></span>
+					<span class="range-slider-active-segment"></span>
+				</div>
+			</div>
+			<div class="locateMe">
+				<span><img src="assets/img/gpsIcon.png" alt="logo"></span>
+			</div>
+
+			<div id="map">
+				
+			</div>
+			<div class="markermaping">
+				<ul>
+					<li><img src="assets/img/greenMarker.png"> <span>Slots Available</span></li>
+					<li><img src="assets/img/redMarker.png"> <span>Check Next Slot</span></li>
+					<li><img src="assets/img/checkedInMarker.png"> <span>Checked-In</span></li>
+					<li><img src="assets/img/premiumLegendMarker.png"> <span>Sponsored</span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="serviceSection">
+			<div class="directionArrow directionArrowBottom"><img src="assets/img/btn_arrow.png"></div>
+			<div class="directionArrow directionArrowTop"><img src="assets/img/btn_arrow.png"></div>
+			<div class="serviceHead">
+				<h2></h2>
+				<div class="rateRow">
+					<div class="rating">
+						<div id="rateYo"></div>
+						<span></span>
+					</div>
+					<div class="milesVal">
+					</div>
+				</div>
+				<h3><span class="slotTime"></span></h3>
+			</div>
+			<div class="serviceCont">
+				<div class="serviceRow1">
+					<a href="#" class="phoneCall">
+						<img src="assets/img/tele.png">
+						<span>Call</span>
+					</a>
+					<a href="#" target="_blank" class="website">
+						<img src="assets/img/webIcon.png">
+						<span>Website</span>
+					</a>
+				</div>
+				<ul class="serviceRow2">
+					<li>
+						<img src="assets/img/locationIcon1.png">
+						<span class="companyAddr"></span>
+					</li>
+					<li>
+						<img src="assets/img/clockIcon.png">
+						<span class="businessHours"></span>
+					</li>
+				</ul>
+				<!-- <div class="selectType">
+					<img src="assets/img/teethIcon.png">
+					<select name="">
+						<option value="General">General</option>
+					</select>
+				</div> -->
+				<button class="btn_sch">Schedule</button>
+				<button class="btn_dir" style="display:none;">Start Directions</button>
+				<button class="btn_dirStp" style="display:none;">Stop Directions</button>
+			</div>
+		</div>
+	</div>
+	<div class="imgContainer" style="display: none;">
+		<img src="assets/img/overlay.png" alt="info image" width="100%">
+	</div>
+	<div class="pop_up">
+		<div class="popContent">
+			<h2></h2>
+			<p><span></span><strong></strong></p>
+			<button class="closePop">Ok</button>
+		</div>
+	</div>
+	<div class="shadow"></div>
+<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjBEUatDTwvyslQtJYGxNATrh30BJHpH0
+"></script>
+<script src="assets/js/markerAnimate.js"></script>
+<script src="assets/js/SlidingMarker.min.js"></script>
+<script src='https://socket.within30.com/socket.io/socket.io.js'></script>
+<script src="assets/js/all.js"></script>
+<script src="assets/js/swipe.js"></script>
+<script type="text/javascript" src="assets/js/jquery.rateyo.min.js"></script>
+<script src="assets/js/moment.js"></script>
+<script src="assets/js/moment-timezone-with-data.js"></script>
+<script type="text/javascript" src="assets/js/map.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script type="text/javascript" src="assets/js/servicePage.js"></script>
+</body>
+</html>
