@@ -90,20 +90,24 @@ var saveData = function(type){
                   w30mob.callNativeApp("postjson", JSON.stringify(udata), function(data){
                     //console.log(data);
                   });
+                    $('body').removeClass('bodyload');
                   window.location.href = "selectCatagory.html";
                 }
             });
            request1.fail(function(jqXHR, textStatus) {
+             $('body').removeClass('bodyload');            
              alert(JSON.stringify(jqXHR));
              /*    alert('Error in user service call......');*/
            });
         });
 	}else{
+        $('body').removeClass('bodyload');
 		//console.log("fill all fields");
 	}
 }
 
 $(".sub-btn").on("click", function(){
+    $('body').addClass('bodyload');
 	saveData("saveenduser");
 });
 
