@@ -16,6 +16,71 @@ class JsBridge {
         if vv?.lowercased() == "getdevicetoken" {
             retstr = GetDeviceToken()
         }
+        if vv?.lowercased() == "savelocationtype" {
+            retstr = SetLocationType(dict: dict)
+        }
+        if vv?.lowercased() == "getlocationtype" {
+            retstr = GetLocationType()
+        }
+        
+        if vv?.lowercased() == "savecustomelat" {
+            retstr = SetCustomeLat(dict: dict)
+        }
+        if vv?.lowercased() == "getcustomelat" {
+            retstr = GetCustomeLat()
+        }
+        if vv?.lowercased() == "savecustomelong" {
+            retstr = SetCustomeLong(dict: dict)
+        }
+        if vv?.lowercased() == "getcustomelong" {
+            retstr = GetCustomeLong()
+        }
+        if vv?.lowercased() == "saveserviceid" {
+            retstr = SetServiceId(dict: dict)
+        }
+        if vv?.lowercased() == "getserviceid" {
+            retstr = GetServiceId()
+        }
+        if vv?.lowercased() == "saverecentlocation" {
+            retstr = SetRecentLocation(dict: dict)
+        }
+        if vv?.lowercased() == "getrecentlocation" {
+            retstr = GetRecentLocation()
+        }
+        if vv?.lowercased() == "saveoverlaystate" {
+            retstr = SetOverlayState(dict: dict)
+        }
+        if vv?.lowercased() == "getoverlaystate" {
+            retstr = GetOverlayState()
+        }
+        if vv?.lowercased() == "getfirstname" {
+            retstr = GetFirstName()
+        }
+        
+        if vv?.lowercased() == "getlastname" {
+            retstr = GetLastName()
+        }
+        
+        if vv?.lowercased() == "getemail" {
+            retstr = GetEmail()
+        }
+        
+        if vv?.lowercased() == "getmobile" {
+            retstr = GetMobile()
+        }
+        
+        if vv?.lowercased() == "getuserid" {
+            retstr = GetUserId()
+        }
+        
+        if vv?.lowercased() == "getlatitude" {
+            //return latitude
+            retstr = "17.480373"
+        }
+        
+        if vv?.lowercased() == "getlongitude" {
+            retstr = "78.390640"
+        }
         if vv?.lowercased() == "postjson" {
             retstr = PostJson(dict: dict)
         }
@@ -26,19 +91,111 @@ class JsBridge {
         return SharedStorage.GetDeviceToken();
     }
     
+    static func SetLocationType(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["locationType"] as? String{
+            SharedStorage.SetLocationType(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetLocationType() -> String{
+        return SharedStorage.GetLocationType();
+    }
+    
+    static func SetCustomeLat(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["customeLat"] as? String{
+            SharedStorage.SetCustomeLat(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetCustomeLat() -> String{
+        return SharedStorage.GetCustomeLat();
+    }
+    
+    static func SetCustomeLong(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["customeLong"] as? String{
+            SharedStorage.SetCustomeLong(value: vv)
+        }
+        return "Longitude Inserted";
+    }
+    
+    static func GetCustomeLong() -> String{
+        return SharedStorage.GetCustomeLong();
+    }
+    
+    static func SetServiceId(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["serviceId"] as? String{
+            SharedStorage.SetServiceId(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetServiceId() -> String{
+        return SharedStorage.GetServiceId();
+    }
+    
+    static func SetRecentLocation(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["recentLocation"] as? String{
+            SharedStorage.SetRecentLocation(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetRecentLocation() -> String{
+        return SharedStorage.GetRecentLocation();
+    }
+    
+    static func SetOverlayState(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["overlayState"] as? String{
+            SharedStorage.SetOverlayState(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetOverlayState() -> String{
+        return SharedStorage.GetOverlayState();
+    }
+    
+    static func GetFirstName() -> String{
+        return SharedStorage.GetFirstName();
+    }
+    
+    static func GetLastName() -> String{
+        return SharedStorage.GetLastName();
+    }
+    
+    static func GetEmail() -> String{
+        return SharedStorage.GetEmail();
+    }
+    
+    static func GetMobile() -> String{
+        return SharedStorage.GetMobile();
+    }
+    
+    static func GetUserId() -> String{
+        return SharedStorage.GetUserId();
+    }
+    
     static func PostJson(dict: [String: Any]?) -> String{
         let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
-        print(data?["deviceToken"])
-        if let vv = data?["firstname"] as? String{
+        
+        if let vv = data?["firstName"] as? String{
             SharedStorage.SetFirstName(value: vv)
         }
-        if let vv = data?["lastname"] as? String{
+        if let vv = data?["lastName"] as? String{
             SharedStorage.SetLastName(value: vv)
         }
         if let vv = data?["email"] as? String{
             SharedStorage.SetEmail(value: vv)
         }
-        if let vv = data?["mobilenumber"] as? String{
+        if let vv = data?["mobileNumber"] as? String{
             SharedStorage.SetMobile(value: vv)
         }
         if let vv = data?["deviceToken"] as? String{

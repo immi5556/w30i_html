@@ -1,45 +1,17 @@
 var w30Credentials = "win-HQGQ:zxosxtR76Z80";
 var servurl = "https://services.within30.com/";
 var mobilenumber;
-
-function mobileNumberValidation(evt){
-	var charCode = (evt.which) ? evt.which : evt.keyCode;
-      if (charCode != 46 && charCode > 31
-        && (charCode < 48 || charCode > 57))
-         return false;
-
-    if($(".mobilenumber").val().length < 14){
-    	var key = evt.charCode || evt.keyCode || 0;
-    	var $phone = $(".mobilenumber");
-
-    	if (key !== 8 && key !== 9) {
-    		if ($phone.val().length === 0) {
-				$phone.val('('+ $phone.val());
-			}
-			if ($phone.val().length === 4) {
-				$phone.val($phone.val() + ')');
-			}
-			if ($phone.val().length === 5) {
-				$phone.val($phone.val() + ' ');
-			}
-			if ($phone.val().length === 9) {
-				$phone.val($phone.val() + '-');
-			}
-		}
-      	return true;
-    } else if(evt.keyCode == 8 || evt.keyCode == 9){
-    	return true;
-    }else{
-  		return false;
-    }
-}
+//window.andapp.updateCurrentLocation();
+w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
+                     //alert(data);
+                     });
 
 var checkEmailBox = function(){
     if (!$(".email").val())	{
         $(".email").css({
             'border-color': 'red'
         });
-        $(".email").focus();
+        //$(".email").focus();
         return false;
     }else {
         var req = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -47,7 +19,7 @@ var checkEmailBox = function(){
             $(".email").css({
                 'border-color': 'red'
             });
-            $(".email").focus();
+            //$(".email").focus();
             return false;
         }else{
             $(".email").css({
@@ -81,7 +53,7 @@ var validate = function(){
          $("#emailError").hide();
     }
 
-    if($(".mobilenumber").val().length != 14 || $(".mobilenumber").val().slice(0, 1) != "(" || $(".mobilenumber").val().slice(4, 6) != ") " || $(".mobilenumber").val().slice(9, 10) != "-"){
+    if($(".mobilenumber").val().length == 0){
         $("#mobileError").show();
         errorCount++
     }else{
@@ -98,8 +70,9 @@ var saveData = function(type){
 	if(validate()){
 	    mobilenumber = $(".mobilenumber").val();
         w30mob.callNativeApp("getdevicetoken", null, function(data){
-                             alert(data);
-           var udata = {"firstname":$(".firstname").val(),"lastname":$(".lastname").val(),"email":$(".email").val(),"mobilenumber":mobilenumber, "deviceToken": data};
+                             //alert(data);
+                             //need to get lat, long from main view file
+           var udata = {"firstName":$(".firstname").val(),"lastName":$(".lastname").val(),"email":$(".email").val(),"mobileNumber":mobilenumber, "deviceToken": data, "regLat": "17.22", "regLng": "78.42", "deviceType": "IOS"};
            var request1 = $.ajax({
                  url: servurl + "endpoint/api/"+type,
                  type: "POST",
@@ -115,19 +88,18 @@ var saveData = function(type){
                   udata._id = result._id;
                             udata.deviceToken = 'Lord Jesus my Shepard';
                   w30mob.callNativeApp("postjson", JSON.stringify(udata), function(data){
-                    console.log(data);
+                    //console.log(data);
                   });
                   window.location.href = "selectCatagory.html";
                 }
             });
            request1.fail(function(jqXHR, textStatus) {
-             console.log(JSON.stringify(jqXHR));
              alert(JSON.stringify(jqXHR));
              /*    alert('Error in user service call......');*/
            });
         });
 	}else{
-		console.log("fill all fields");
+		//console.log("fill all fields");
 	}
 }
 
@@ -136,7 +108,7 @@ $(".sub-btn").on("click", function(){
 });
 
 function goBack(){
-    window.andapp.closeApp();
+    //window.andapp.closeApp();
 }
 
 var refreshOnForeground = function(){

@@ -29,6 +29,7 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
     
     private func locationManager(manager: CLLocationManager!,   didUpdateLocations locations: [AnyObject]!) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("---------------------")
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
@@ -64,6 +65,10 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
         let request = URLRequest(url:requestURL!);
         self.webView?.load(request) */
         var fileURL = URL(fileURLWithPath: Bundle.main.path(forResource:"assets/index", ofType: "html")!)
+        if !SharedStorage.GetUserId().isEmpty {
+            fileURL = URL(fileURLWithPath: Bundle.main.path(forResource:"assets/selectCatagory", ofType: "html")!)
+        }
+        
         if #available(iOS 9.0, *) {
             // iOS9 and above. One year later things are OK.
             webView?.loadFileURL(fileURL, allowingReadAccessTo: fileURL)

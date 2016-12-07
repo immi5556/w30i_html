@@ -15,6 +15,12 @@ struct Keys {
     static let Email = "W30_EMAIL"
     static let Mobile = "W30_MOBILE"
     static let _ID = "W30_ID"
+    static let LocationType = "W30_Location_Type"
+    static let CustomeLat = "W30_Custome_Lat"
+    static let CustomeLong = "W30_Custome_Long"
+    static let ServiceId = "W30_Service_Id"
+    static let RecentLocation = "W30_Recent_Location"
+    static let OverlayState = "W30_Overlay_State"
 }
 
 class SharedStorage {
@@ -32,6 +38,90 @@ class SharedStorage {
         defaults.synchronize()
     }
     
+    static func SetLocationType(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.LocationType)
+        defaults.synchronize()
+    }
+    
+    static func GetLocationType() -> String {
+        let defaults = UserDefaults.standard
+        if let locationType = defaults.string(forKey: Keys.LocationType) {
+            return locationType
+        }
+        return "Nil";
+    }
+    
+    static func SetCustomeLat(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.CustomeLat)
+        defaults.synchronize()
+    }
+    
+    static func GetCustomeLat() -> String {
+        let defaults = UserDefaults.standard
+        if let customeLat = defaults.string(forKey: Keys.CustomeLat) {
+            return customeLat
+        }
+        return "Nil";
+    }
+    
+    static func SetCustomeLong(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.CustomeLong)
+        defaults.synchronize()
+    }
+    
+    static func GetCustomeLong() -> String {
+        let defaults = UserDefaults.standard
+        if let customeLat = defaults.string(forKey: Keys.CustomeLong) {
+            return customeLat
+        }
+        return "Nil";
+    }
+    
+    static func SetServiceId(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.ServiceId)
+        defaults.synchronize()
+    }
+    
+    static func GetServiceId() -> String {
+        let defaults = UserDefaults.standard
+        if let serviceId = defaults.string(forKey: Keys.ServiceId) {
+            return serviceId
+        }
+        return "Nil";
+    }
+
+    static func SetRecentLocation(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.RecentLocation)
+        defaults.synchronize()
+    }
+    
+    static func GetRecentLocation() -> String {
+        let defaults = UserDefaults.standard
+        if let recentLocation = defaults.string(forKey: Keys.RecentLocation) {
+            return recentLocation
+        }
+        return "Nil";
+    }
+    
+    static func SetOverlayState(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.OverlayState)
+        defaults.synchronize()
+    }
+    
+    static func GetOverlayState() -> String {
+        let defaults = UserDefaults.standard
+        if let overlayState = defaults.string(forKey: Keys.OverlayState) {
+            return overlayState
+        }
+        return "Nil";
+    }
+
     static func GetFirstName() -> String {
         let defaults = UserDefaults.standard
         if let token = defaults.string(forKey: Keys.FirstName) {
