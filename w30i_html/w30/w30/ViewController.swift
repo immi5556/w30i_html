@@ -15,6 +15,10 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
     var webView: WKWebView? = nil
     var locationManager: CLLocationManager!
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func loadView() {
         super.loadView()
         self.locationManager = CLLocationManager()

@@ -114,8 +114,10 @@ var updateData = function(type){
                         });
                          //need to write in native code
                          //window.andapp.showToast("Updated Successfully...");
-                         
-                         window.location.href = "servicePage.html";
+                         $(".popContent h2").text("Profile Update");
+                         $(".popContent strong").text("Successfully Updated");
+                         $(".pop_up").show();
+                         //window.location.href = "servicePage.html";
                          }
                          });
         request1.fail(function(jqXHR, textStatus) {
@@ -137,6 +139,13 @@ $(".back").on("click", function(){
               /*window.location.href = "servicePage.html";*/
               history.back();
               });
+$(".popContent").on("click", function(e){
+                    e.stopPropagation();
+                    });
+$(".pop_up, .closePop").on("click", function(){
+                           $(".pop_up").hide();
+                           window.location.href = "servicePage.html";
+                           });
 
 function goBack(){
     history.back();

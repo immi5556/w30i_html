@@ -11,9 +11,40 @@ $('.usegps').on("click", function(){
                 });
 });
 
+$(document).on("click", function(){
+               $("#catagorySelect").show();
+               $("#pac-input").hide();
+});
+
 $(".back").on("click", function(){
               window.location.href = "servicePage.html";
 });
+
+$(".fa-search").on("click", function(e){
+                   e.stopPropagation();
+                   $("#catagorySelect").hide();
+                   $("#pac-input").show();
+                   $("#pac-input").focus();
+                   });
+
+var setRecentBlock = function(){
+    w30mob.callNativeApp("getrecentlocation", null, function(data){
+                         var recentSearch = data;
+                         if(recentSearch.length > 0 && recentSearch != "Nil"){
+                         $(".recentSearch p").text(recentSearch);
+                         $(".recentSearch").on("click", function(){
+                                               w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"false"}), function(data){
+                                                                    //alert(data);
+                                                                    });
+                                               //window.andapp.updateLatLong(latitude, longitude);
+                                               window.location.href = "servicePage.html";
+                                               });
+                         }else{
+                         $(".recentSearch p").text("No recent search");
+                         }
+                         });
+}
+
 
 var locationType;
 w30mob.callNativeApp("getlocationtype", null, function(type){
@@ -24,23 +55,36 @@ w30mob.callNativeApp("getlocationtype", null, function(type){
     setRecentBlock();
 });
 
-var setRecentBlock = function(){
-    w30mob.callNativeApp("getrecentlocation", null, function(data){
-        var recentSearch = data;
-        if(recentSearch){
-            $(".recentSearch p").text(recentSearch);
-            $(".recentSearch").on("click", function(){
-                w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"false"}), function(data){
-                    //alert(data);
-                });
-                //window.andapp.updateLatLong(latitude, longitude);
-                window.location.href = "servicePage.html";
+var input = (document.getElementById('pac-input'));
+var autocomplete = new google.maps.places.Autocomplete(input);
+
+autocomplete.addListener('place_changed', function() {
+    var place = autocomplete.getPlace();
+                         
+    if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        window.alert("No details available for input: '" + place.name + "'");
+        return;
+    }else{
+        var searchedLat = place.geometry.location.lat();
+        var searchedLong = place.geometry.location.lng();
+        w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"false"}), function(data){
+            //alert(data);
+            w30mob.callNativeApp("saverecentlocation", JSON.stringify({"recentLocation":$("#pac-input").val()}), function(data){
+                //alert(data);
             });
-        }else{
-            $(".recentSearch p").text("No recent search");
-        }
-    });
-}
+                           $(".recentSearch p").text($("#pac-input").val());
+            w30mob.callNativeApp("savecustomelat", JSON.stringify({"customeLat":searchedLat.toString()}), function(data){
+                //alert(data);
+                w30mob.callNativeApp("savecustomelong", JSON.stringify({"customeLong":searchedLong.toString()}), function(data){
+                    //alert(data);
+                    window.location.href = "servicePage.html";
+                });
+            });
+        });
+    }
+});
 
 function goBack(){
     window.history.back();
