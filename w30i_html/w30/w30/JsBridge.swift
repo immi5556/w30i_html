@@ -214,4 +214,9 @@ class JsBridge {
         }
         return "Successfully Saved."
     }
+    
+    static func RefreshGeoLocation(lat: String, lng: String, vc: ViewController){
+        vc.webView?.evaluateJavaScript("locationChange('" + lat + "', '" + lng + "')", completionHandler: nil)
+    }
+    
 }

@@ -55,8 +55,10 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
         manager.stopUpdatingLocation()
         print("user latitude = \(userLocation.coordinate.latitude)")
         print("user longitude = \(userLocation.coordinate.longitude)")
-        SharedStorage.SetLatitude(value: String(userLocation.coordinate.latitude))
-        SharedStorage.SetLongitude(value: String(userLocation.coordinate.longitude))
+        //SharedStorage.SetLatitude(value: String(userLocation.coordinate.latitude))
+        //SharedStorage.SetLongitude(value: String(userLocation.coordinate.longitude))
+        JsBridge.RefreshGeoLocation(lat: String(userLocation.coordinate.latitude), lng: String(userLocation.coordinate.longitude), vc: self)
+        
     }
     
     func locationManager(_ manager: CLLocationManager,
