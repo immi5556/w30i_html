@@ -11,7 +11,7 @@ import WebKit
 import CoreLocation
 
 class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CLLocationManagerDelegate {
-
+    
     var webView: WKWebView? = nil
     var locationManager: CLLocationManager!
     
@@ -27,13 +27,41 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startMonitoringSignificantLocationChanges()
         initJsBridge()
-                self.webView?.uiDelegate = self
+        self.webView?.uiDelegate = self
         self.view = self.webView
     }
     
-    private func locationManager(manager: CLLocationManager!,   didUpdateLocations locations: [AnyObject]!) {
-        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        determineMyCurrentLocation()
+    }
+    
+    func determineMyCurrentLocation() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.startUpdatingLocation()
+            //locationManager.startUpdatingHeading()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation:CLLocation = locations[0] as CLLocation
+        // Call stopUpdatingLocation() to stop listening for location updates,
+        // other wise this function will be called every time when user location changes.
+        manager.stopUpdatingLocation()
+        print("user latitude = \(userLocation.coordinate.latitude)")
+        print("user longitude = \(userLocation.coordinate.longitude)")
+        SharedStorage.SetLatitude(value: String(userLocation.coordinate.latitude))
+        SharedStorage.SetLongitude(value: String(userLocation.coordinate.longitude))
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error) {
+        print("Location Error \(error)")
     }
     
     func fileURLForBuggyWKWebView8(fileURL: URL) throws -> URL {
@@ -64,11 +92,11 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
         super.viewDidLoad()
         
         /*let path = Bundle.main.path(forResource: "assets/servicePage", ofType: "html", inDirectory: nil)
-        let requestURL = URL(string:path!);
-        let request = URLRequest(url:requestURL!);
-        self.webView?.load(request) */
+         let requestURL = URL(string:path!);
+         let request = URLRequest(url:requestURL!);
+         self.webView?.load(request) */
         var fileURL = URL(fileURLWithPath: Bundle.main.path(forResource:"assets/index", ofType: "html")!)
-        if !SharedStorage.GetMobile().isEmpty {
+        if !SharedStorage.GetMobile().isEmpty && SharedStorage.GetMobile() != "Nil" {
             fileURL = URL(fileURLWithPath: Bundle.main.path(forResource:"assets/selectCatagory", ofType: "html")!)
         }
         
@@ -88,12 +116,12 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
             }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     override func viewDidLayoutSubviews() {
         /*webView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height); */
     }
@@ -110,11 +138,11 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
     }
     
     /* func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if(message.name == "callbackHandler") {
-            print("JavaScript is sending a message \(message.body)")
-            self.webView?.evaluateJavaScript("redHeader()", completionHandler: nil)
-        }
-    } */
+     if(message.name == "callbackHandler") {
+     print("JavaScript is sending a message \(message.body)")
+     self.webView?.evaluateJavaScript("redHeader()", completionHandler: nil)
+     }
+     } */
     
     func initJsBridge() {
         var contentController = WKUserContentController();

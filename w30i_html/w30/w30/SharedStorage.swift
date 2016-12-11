@@ -21,6 +21,8 @@ struct Keys {
     static let ServiceId = "W30_Service_Id"
     static let RecentLocation = "W30_Recent_Location"
     static let OverlayState = "W30_Overlay_State"
+    static let DeviceLatitude = "W30_DeviceLatitude"
+    static let DeviceLongitude = "W30_DeviceLongitude"
 }
 
 class SharedStorage {
@@ -48,6 +50,34 @@ class SharedStorage {
         let defaults = UserDefaults.standard
         if let locationType = defaults.string(forKey: Keys.LocationType) {
             return locationType
+        }
+        return "Nil";
+    }
+    
+    static func SetLatitude(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.DeviceLatitude)
+        defaults.synchronize()
+    }
+    
+    static func GetLatitude() -> String {
+        let defaults = UserDefaults.standard
+        if let devLon = defaults.string(forKey: Keys.DeviceLatitude) {
+            return devLon
+        }
+        return "Nil";
+    }
+    
+    static func SetLongitude(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.DeviceLongitude)
+        defaults.synchronize()
+    }
+    
+    static func GetLongitude() -> String {
+        let defaults = UserDefaults.standard
+        if let devLat = defaults.string(forKey: Keys.DeviceLongitude) {
+            return devLat
         }
         return "Nil";
     }
@@ -93,7 +123,7 @@ class SharedStorage {
         }
         return "Nil";
     }
-
+    
     static func SetRecentLocation(value: String) {
         let defaults = UserDefaults.standard
         defaults.set(value, forKey: Keys.RecentLocation)
@@ -121,7 +151,7 @@ class SharedStorage {
         }
         return "Nil";
     }
-
+    
     static func GetFirstName() -> String {
         let defaults = UserDefaults.standard
         if let token = defaults.string(forKey: Keys.FirstName) {

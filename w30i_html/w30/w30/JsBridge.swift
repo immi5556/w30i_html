@@ -75,11 +75,19 @@ class JsBridge {
         
         if vv?.lowercased() == "getlatitude" {
             //return latitude
-            retstr = "17.480373"
+            //retstr = "17.480373"
+            retstr = SharedStorage.GetLatitude()
+            if retstr == "Nil" {
+                retstr = "17.480373"
+            }
         }
         
         if vv?.lowercased() == "getlongitude" {
-            retstr = "78.390640"
+            //retstr = "78.390640"
+            retstr = SharedStorage.GetLongitude()
+            if retstr == "Nil" { // For EMulator
+                retstr = "78.390640"
+            }
         }
         if vv?.lowercased() == "postjson" {
             retstr = PostJson(dict: dict)
