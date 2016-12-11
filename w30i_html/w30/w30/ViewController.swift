@@ -57,7 +57,7 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
         print("user longitude = \(userLocation.coordinate.longitude)")
         //SharedStorage.SetLatitude(value: String(userLocation.coordinate.latitude))
         //SharedStorage.SetLongitude(value: String(userLocation.coordinate.longitude))
-        JsBridge.RefreshGeoLocation(lat: String(userLocation.coordinate.latitude), lng: String(userLocation.coordinate.longitude), vc: <#T##ViewController#>)
+        JsBridge.RefreshGeoLocation(lat: String(userLocation.coordinate.latitude), lng: String(userLocation.coordinate.longitude), vc: self)
         
     }
     
