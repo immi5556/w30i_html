@@ -30,6 +30,7 @@
 		DB60058D1DED4B290057C35A /* SharedStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedStorage.swift; sourceTree = "<group>"; };
 		DB60058F1DED96960057C35A /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		DBCD130B1DEDD3F800DEF9D9 /* JsBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsBridge.swift; sourceTree = "<group>"; };
+		DBFA6CED1DFD2461005E6DA3 /* w30.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = w30.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		DB6005781DEA9DAC0057C35A /* w30 */ = {
 			isa = PBXGroup;
 			children = (
+				DBFA6CED1DFD2461005E6DA3 /* w30.entitlements */,
 				DB6005791DEA9DAD0057C35A /* AppDelegate.swift */,
 				DB60057B1DEA9DAD0057C35A /* ViewController.swift */,
 				DB60057D1DEA9DAD0057C35A /* Main.storyboard */,
@@ -108,8 +110,16 @@
 				TargetAttributes = {
 					DB6005751DEA9DAC0057C35A = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = T4H6W6NRG3;
+						DevelopmentTeam = F6VRM5EGZ9;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.Siri = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -277,11 +287,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = T4H6W6NRG3;
+				CODE_SIGN_ENTITLEMENTS = w30/w30.entitlements;
+				DEVELOPMENT_TEAM = F6VRM5EGZ9;
 				INFOPLIST_FILE = w30/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sj.w30;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sj.within30;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -291,11 +302,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = T4H6W6NRG3;
+				CODE_SIGN_ENTITLEMENTS = w30/w30.entitlements;
+				DEVELOPMENT_TEAM = F6VRM5EGZ9;
 				INFOPLIST_FILE = w30/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sj.w30;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sj.within30;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
