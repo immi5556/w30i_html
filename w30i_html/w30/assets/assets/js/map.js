@@ -290,12 +290,13 @@ var loadMap = function(docs){
             $(".phoneCall").on("click", function(){
                     calling = "true";
                     websiteBackButton = true;
-                    /*window.andapp.phoneCall(customers[i].mobile);*/
+                    w30mob.callNativeApp("calling", JSON.stringify({"phoneNumber":docs[i].mobile}), function(data){
+                    });
             });
             $(".website").on("click", function(){
                     calling = "true";
                     websiteBackButton = true;
-                   /*window.andapp.openLink("https://"+docs[i].subdomain+urlLink);*/
+                    window.location.href = "https://"+docs[i].subdomain+urlLink+"?type=iosapp";
             });
             $(".businessHours").text("Business Hours: "+customers[i].startHour+" - "+customers[i].endHour);
             $(".directionArrowBottom").hide();
@@ -317,6 +318,9 @@ var loadMap = function(docs){
                 $(".btn_dir").show();
               $(".btn_dir").off().on("click", function(){
                                  directionIndex = i;
+                                w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"false"}), function(data){
+                                                          //alert(data);
+                                });
                                  /*window.andapp.updateTimeInterval("1");*/
                                  //oldDirectionIndex = 0;
                                  $(".shadow").click();
@@ -336,6 +340,9 @@ var loadMap = function(docs){
                 $(".btn_dir").show();
                 $(".btn_dir").off().on("click", function(){
                                  directionIndex = i;
+                                       w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"false"}), function(data){
+                                                            //alert(data);
+                                                            });
                                  /*window.andapp.updateTimeInterval("1");*/
                                  //oldDirectionIndex = 0;
                                  $(".shadow").click();
@@ -354,6 +361,9 @@ var loadMap = function(docs){
                 });
                 $(".btn_dir").off().on("click", function(){
                                  directionIndex = i;
+                                       w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"false"}), function(data){
+                                                            //alert(data);
+                                                            });
                                  /*window.andapp.updateTimeInterval("1");*/
                                  oldDirectionIndex = 0;
                                  $(".shadow").click();
@@ -383,6 +393,9 @@ var loadMap = function(docs){
     
     $(".btn_dirStp").on('click', function(){
                         directionIndex = -1;
+                        w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
+                                             //alert(data);
+                                             });
                         /*window.andapp.updateTimeInterval("30");*/
                         directionsDisplay.setMap(null);
                         directionStop = 0;
@@ -846,18 +859,22 @@ function goBack(){
 }
 
 function locationChange(newLat, newLong){
-    if(newLat != null && newLong != null && (latitude != newLat || longitude != newLong)){
-        latitude = newLat;
-        longitude = newLong;
-        if(userMarker){
-            setTimeout(function() {
-                       var newPosition = {lat: latitude, lng: longitude}
-                       userMarker.setPosition(newPosition)
-                       }, 1000);
-            if(directionIndex > -1)
-                startDirection();
+    w30mob.callNativeApp("getlocationtype", null, function(type){
+        if(type == "true" ){
+            if(newLat != null && newLong != null && (latitude != newLat || longitude != newLong)){
+                latitude = newLat;
+                longitude = newLong;
+                if(userMarker){
+                    setTimeout(function() {
+                        var newPosition = {lat: latitude, lng: longitude}
+                        userMarker.setPosition(newPosition)
+                    }, 1000);
+                    if(directionIndex > -1)
+                        startDirection();
+                }
+            }
         }
-    }
+    });
 }
 
 var refreshOnForeground = function(){

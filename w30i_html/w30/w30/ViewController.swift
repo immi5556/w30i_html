@@ -14,10 +14,13 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
     
     var webView: WKWebView? = nil
     var locationManager: CLLocationManager!
+    var stopLocationFetch = "true"
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    var leftItemsSupplementBackButton: Bool { return true }
     
     override func loadView() {
         super.loadView()
@@ -52,7 +55,10 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
         let userLocation:CLLocation = locations[0] as CLLocation
         // Call stopUpdatingLocation() to stop listening for location updates,
         // other wise this function will be called every time when user location changes.
-        manager.stopUpdatingLocation()
+        if(stopLocationFetch == "true"){
+            manager.stopUpdatingLocation()
+        }
+        
         print("user latitude = \(userLocation.coordinate.latitude)")
         print("user longitude = \(userLocation.coordinate.longitude)")
         //SharedStorage.SetLatitude(value: String(userLocation.coordinate.latitude))
@@ -64,6 +70,10 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
     func locationManager(_ manager: CLLocationManager,
                          didFailWithError error: Error) {
         print("Location Error \(error)")
+    }
+    
+    func updateLocationFetchVal(value: String){
+        stopLocationFetch = value
     }
     
     func fileURLForBuggyWKWebView8(fileURL: URL) throws -> URL {
@@ -171,6 +181,16 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler, CL
     
     func callClient(action: String, data: String) {
         self.webView?.evaluateJavaScript("w30mob.subscribeToNative('" + action + "', '" + data + "')", completionHandler: nil)
+    }
+    
+    func refreshWebPage() {
+        self.webView?.evaluateJavaScript("refreshOnForeground()", completionHandler: nil)
+    }
+    
+    func callNumber(phoneNumber:String) {
+        if let url = URL(string:"tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.openURL(url)
+        }
     }
 }
 

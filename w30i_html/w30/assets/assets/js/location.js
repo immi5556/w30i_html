@@ -5,6 +5,9 @@ var cities = [];
 
 $('.usegps').on("click", function(){
                 //window.andapp.updateCurrentLocation();
+                w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
+                    //alert(data);
+                });
                 w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
                                      //alert(data);
                     window.location.href = "servicePage.html";

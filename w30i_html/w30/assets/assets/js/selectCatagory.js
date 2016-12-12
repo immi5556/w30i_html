@@ -61,6 +61,7 @@ var getServices = function (){
                           });
     
     request1.success(function(result) {
+                     alert(result.Data.length)
                      services.push(result.Data);
                      $('body').removeClass('bodyload');
                      $("#autoSelect2").gbAutocomplete({
@@ -71,6 +72,7 @@ var getServices = function (){
                      });
     request1.fail(function(jqXHR, textStatus) {
                   $('body').removeClass('bodyload');
+                  alert("Not able to get services. Try Again");
                   console.log(textStatus);
                   });
 }
@@ -114,12 +116,15 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
             e.stopPropagation();
             var matchFound = -1;
             var textVal = $(this).find("strong").text();
+                                                                                                       alert(textVal)
+                                                                                                       alert(services[0].length)
             services[0].forEach(function(item, index){
                if(item.name == textVal){
                     matchFound = index;
                     serviceId = item._id;
                }
             });
+                                                                                                       alert(matchFound)
             if(matchFound != -1){
                 w30mob.callNativeApp("saveserviceid", JSON.stringify({"serviceId":serviceId}), function(data){
                         //alert(data);
@@ -127,6 +132,9 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
                 if(!$("#pac-input").val() && $("#pac-input").val().length == 0){
                         //need to do update current location on native side
                        //window.andapp.updateCurrentLocation();
+                        w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
+                            //alert(data);
+                        });
                        w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
                                 //alert(data);
                        });
@@ -150,7 +158,7 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
                             });
                         });
                         
-                        //need to do on native side
+                        //No need of this. once confirm after testing
                         //window.andapp.updateLatLong(latitude, longitude);
                 }
                 window.location.href = "servicePage.html";
@@ -163,6 +171,9 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
 $('.gpsIcon').on("click", function(){
     //need to do update current location on native side
     //window.andapp.updateCurrentLocation();
+    w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
+        //alert(data);
+    });
     w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
         //alert(data);
     });

@@ -92,6 +92,18 @@ class JsBridge {
         if vv?.lowercased() == "postjson" {
             retstr = PostJson(dict: dict)
         }
+        if vv?.lowercased() == "calling" {
+            retstr = phoneCall(dict: dict)
+        }
+        
+        if vv?.lowercased() == "updatelocationfetchvalue" {
+            let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+            if let vv = data?["newValue"] as? String{
+                vc.updateLocationFetchVal(value: vv)
+            }
+            vc.determineMyCurrentLocation()
+        }
+        
         vc.callClient(action: vv!, data: retstr)
     }
     
@@ -219,4 +231,11 @@ class JsBridge {
         vc.webView?.evaluateJavaScript("locationChange('" + lat + "', '" + lng + "')", completionHandler: nil)
     }
     
+    static func phoneCall(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["phoneNumber"] as? String{
+            ViewController().callNumber(phoneNumber: vv)
+        }
+        return "";
+    }
 }
