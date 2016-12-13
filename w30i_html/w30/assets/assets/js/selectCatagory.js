@@ -61,7 +61,6 @@ var getServices = function (){
                           });
     
     request1.success(function(result) {
-                     alert(result.Data.length)
                      services.push(result.Data);
                      $('body').removeClass('bodyload');
                      $("#autoSelect2").gbAutocomplete({
@@ -116,15 +115,14 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
             e.stopPropagation();
             var matchFound = -1;
             var textVal = $(this).find("strong").text();
-                                                                                                       alert(textVal)
-                                                                                                       alert(services[0].length)
+                                                                                        
             services[0].forEach(function(item, index){
                if(item.name == textVal){
                     matchFound = index;
                     serviceId = item._id;
                }
             });
-                                                                                                       alert(matchFound)
+                                                                                         
             if(matchFound != -1){
                 w30mob.callNativeApp("saveserviceid", JSON.stringify({"serviceId":serviceId}), function(data){
                         //alert(data);
