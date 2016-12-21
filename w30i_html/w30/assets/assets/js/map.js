@@ -2,6 +2,7 @@ var servurl = "https://services.within30.com/";     //"https://services.schejule
 var sockurl = "https://socket.within30.com/";       //"https://socket.schejule.com:9090/"
 var w30Credentials = "win-HQGQ:zxosxtR76Z80";
 var serviceId = "";
+var serviceName = "";
 var urlLink = ".within30.com/";
 var localImagePath = "./assets/img/";
 var milesValue = 60;
@@ -64,7 +65,7 @@ var abbrs = {
     PDT : 'America/Los_Angeles',
     IST : "Asia/Kolkata"
 };
-var email, mobilenumber, userid;
+var email, mobilenumber, userid, firstname;
 var getServices = function (){
     var request1 = $.ajax({
                           url: servurl + "endpoint/api/getmyservices",
@@ -83,6 +84,7 @@ var getServices = function (){
                      services[0].forEach(function(item, index){
                                          if(item._id == serviceId){
                                          matchFound = index;
+                                         serviceName = item.name;
                                          }
                                          });
                      if(matchFound != -1){
@@ -296,7 +298,7 @@ var loadMap = function(docs){
             $(".website").on("click", function(){
                     calling = "true";
                     websiteBackButton = true;
-                    window.location.href = "https://"+docs[i].subdomain+urlLink+"?type=iosapp";
+                    window.location.href = "https://"+docs[i].subdomain+urlLink+"?source=IOSSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid;
             });
             $(".businessHours").text("Business Hours: "+customers[i].startHour+" - "+customers[i].endHour);
             $(".directionArrowBottom").hide();
@@ -615,7 +617,7 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                           beforeSend: function (xhr) {
                           xhr.setRequestHeader ("Authorization", "Basic " + btoa(w30Credentials));
                           },
-                          data: JSON.stringify({"subDomain":subdomain,"date":localTime,"email":email,"mobile":mobilenumber,"minutes":"30", "userId":userid, "sourceUsed": "mobileIOSApp"}),
+                          data: JSON.stringify({"subDomain":subdomain,"businessType": serviceName,"date":localTime,"email":email,"mobile":mobilenumber,"minutes":"30", "userId":userid, "source": "IOSMapApp"}),
                           contentType: "application/json; charset=UTF-8"
                           });
     
@@ -810,11 +812,14 @@ var getDetails = function(){
                 userid = id;
                 w30mob.callNativeApp("getserviceid", null, function(servId){
                     serviceId = servId;
-                    if(!latitude && !longitude){
-                        errorFunction();
-                    }else{
-                        successFunction();
-                    }
+                    w30mob.callNativeApp("getfirstname", null, function(fn){
+                        firstname = fn;
+                        if(!latitude && !longitude){
+                            errorFunction();
+                        }else{
+                            successFunction();
+                        }
+                    });
                 });
             });
         });

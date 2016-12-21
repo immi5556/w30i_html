@@ -235,6 +235,11 @@ autocomplete.addListener('place_changed', function() {
     }
 });
 
+
+$(".appointments").on("click", function(){
+                      window.location.href = "appointments.html";
+                      });
+
 startFunc();
 function goBack(){
     //window.andapp.closeApp();
