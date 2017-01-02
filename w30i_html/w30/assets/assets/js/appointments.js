@@ -114,18 +114,22 @@ var setView = function(data){
     });
     
     pendingSlots.forEach(function(item, index){
-                         if(!item.destinationDistance){
-                            item.destinationDistance = "";
+                         var temp = "";
+                         if(item.destinationDistance)
+                            temp = item.destinationDistance+" miles away";
+                         
+                         if(item.destinationDistance > 55){
+                            $(".pendingTab").append('<div class="appointBlock"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="contBlockBottom"><span>'+temp+'</span></div></div>');
                          }else{
-                            item.destinationDistance = item.destinationDistance+" miles away";
+                            $(".pendingTab").append('<div class="appointBlock"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="contBlockBottom"><span>'+temp+'</span><a class="'+item.appointmentId+' '+item.businessType+'" href="#">View on map</a></div></div>');
                          }
-                         $(".pendingTab").append('<div class="appointBlock"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="contBlockBottom"><span>'+item.destinationDistance+'</span><a class="'+item.appointmentId+' '+item.businessType+'" href="#">View on map</a></div></div>');
+                         
                          $("."+item.appointmentId).on("click", function(){
                                                       var serviceName = $(this).attr("class").split(" ")[1];
                                                       var matchFound = -1;
                                                       var serviceId = "";
                                                       services[0].forEach(function(item, index){
-                                                                          if(item.name.toLowerCase() == serviceName.toLowerCase()){
+                                                                          if(item.name.replace(" ", "").toLowerCase() == serviceName.toLowerCase()){
                                                                           matchFound = index;
                                                                           serviceId = item._id;
                                                                           }
@@ -144,7 +148,7 @@ var setView = function(data){
     
     finishedSlots.forEach(function(item, index){
                           if(item.rating){
-                          $(".finishTab").append('<div class="appointBlock appointFinished"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="straRating"><strong>Rate your  Experience</strong><div class="ratingBlock"><div class="rateAppoitnment" id="'+item.appointmentId+'"></div></div></div></div>');
+                          $(".finishTab").append('<div class="appointBlock appointFinished"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="straRating"><strong>Thanks for Rating!</strong><div class="ratingBlock"><div class="rateAppoitnment" id="'+item.appointmentId+'"></div></div></div></div>');
                           $("#"+item.appointmentId).rateYo({
                                                            rating: item.rating,
                                                            readOnly: true,

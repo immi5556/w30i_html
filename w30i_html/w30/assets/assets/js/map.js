@@ -26,6 +26,8 @@ var bookedBusiness = null;
 var locationRedirect = false;
 var socketio = io.connect(sockurl);
 var calling = "false";
+var website = "false";
+var websiteDomain = "";
 var directionIndex = -1;
 var directionService = new google.maps.DirectionsService();
 var directionsDisplay = new google.maps.DirectionsRenderer();
@@ -241,6 +243,8 @@ var loadMap = function(docs){
         google.maps.event.addListener(marker, 'click', (function(marker, subdomain, i) {
           return function() {
             calling = "false";
+            website = "false";
+            websiteDomain = "";
             if($(".menu").hasClass("fa-times")){
               $(".menu").removeClass('fa-times');
               $(".menu").addClass('fa-bars');
@@ -296,7 +300,8 @@ var loadMap = function(docs){
                     });
             });
             $(".website").on("click", function(){
-                    calling = "true";
+                    website = "true";
+                    websiteDomain = docs[i].subdomain;
                     websiteBackButton = true;
                     window.location.href = "https://"+docs[i].subdomain+urlLink+"?source=IOSSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid;
             });
@@ -406,6 +411,8 @@ var loadMap = function(docs){
     
     $(".shadow").on('click', function() {
                     calling = "false";
+                    website = "false";
+                    websiteDomain = "";
                     $(".serviceSection").animate({height:'0'},500);
                     $('.shadow').hide();
                     if(oldMarker >= 0){
@@ -703,7 +710,7 @@ $(".locateMe").on("click", function(){
                   map.setCenter({lat:latitude, lng:longitude});
                   });
 
-$(".menuList4, .menuList2, .menuList3, .menuList5, .menuList6, .menuList7").on("click", function(){
+$(".menuList4, .menuList2, .menuList3, .menuList5, .menuList6, .menuList7, .menuList8").on("click", function(){
                                                                                var matchFound = -1;
                                                                                var className = $(this).attr('class').split(" ")[1];
                                                                                services[0].forEach(function(item, index){
@@ -857,6 +864,39 @@ var init = function(){
     });
 }
 init();
+
+var getAppointments = function(callback){
+    if(userid){
+        var request1 = $.ajax({
+                              url: servurl + "endpoint/api/getappointmentList",
+                              type: "POST",
+                              beforeSend: function (xhr) {
+                              xhr.setRequestHeader ("Authorization", "Basic " + btoa(w30Credentials));
+                              },
+                              data: JSON.stringify({"userId":userid}),
+                              contentType: "application/json; charset=UTF-8"
+                              });
+        request1.success(function(result) {
+                         if(result.Status == "Ok"){
+                         callback(result.Data);
+                         }else{
+                         $(".popContent h2").text("Get Appointment Status");
+                         //$(".popContent strong").text("Failed");
+                         $(".popContent span").text("Something went wrong. Try again");
+                         $(".pop_up").show();
+                         }
+                         });
+        request1.fail(function(jqXHR, textStatus) {
+                      $(".popContent h2").text("Get Appointment Status");
+                      //$(".popContent strong").text("Failed");
+                      $(".popContent span").text("Your request didn't go through. Please try again");
+                      $(".pop_up").show();
+                      });
+    }else{
+        alert("Something went wrong. Try again");
+    }
+}
+
 function goBack(){
     window.history.back();
     if(websiteBackButton)
@@ -885,6 +925,25 @@ function locationChange(newLat, newLong){
 var refreshOnForeground = function(){
     if(calling == "false"){
         location.reload();
+    }
+    if(website == "true"){
+        var pendingSlots = [];
+        getAppointments(function(data){
+                        var myTime = moment().format("YYYY-MM-DD HH:mm");
+                        
+                        data.forEach(function(item, index){
+                                     var appointmentTime = item.selecteddate+" "+item.starttime;
+                                     if(appointmentTime > myTime){
+                                     pendingSlots.push(item);
+                                     }
+                                     });
+                        pendingSlots.forEach(function(item, index){
+                                             if(item.subdomain == websiteDomain){
+                                             $(".shadow").click();
+                                             location.reload();
+                                             }
+                                             });
+                        });
     }
 }
 
