@@ -59,12 +59,13 @@ function getLocation(lat, lng) {
                   currentLocationName = null;
             }
           });
-          if($("#pac-input").val().length == 0)
+            if($("#pac-input").val().length == 0){
               //alert("Not able to get your locality name");
                 $(".popContent h2").text("Get Location");
                 $(".popContent strong").text("");
-                $(".popContent span").text("Not able to get your locality name");
+                $(".popContent span").text("Not able to get your locality name.");
                 $(".pop_up").show();
+            }
           $('body').removeClass('bodyload');
         } else {
           //alert("Not able to get your location. Please restart the app.");
