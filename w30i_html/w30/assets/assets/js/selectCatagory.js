@@ -204,6 +204,8 @@ $('.autoComplete .fa-search').click(function(){
         $(".pop_up").show();
     }
 })
+
+
 $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem5, .categoryItem6, .categoryItem8").on("click", function(e){
             e.stopPropagation();
             var matchFound = -1;
@@ -407,3 +409,41 @@ interact('.m1')
            finishrotate(event.speed);
            }
            });
+
+//for ios users static on click event for every menu item
+interact('.categoryItem1').on('tap', function (event) {
+                       $(".categoryItem1").click();
+                       
+                       event.preventDefault();
+                       });
+
+interact('.categoryItem2').on('tap', function (event) {
+                              $(".categoryItem2").click();
+                              
+                              event.preventDefault();
+                              });
+interact('.categoryItem3').on('tap', function (event) {
+                              $(".categoryItem3").click();
+                              
+                              event.preventDefault();
+                              });
+interact('.categoryItem4').on('tap', function (event) {
+                              $(".categoryItem4").click();
+                              
+                              event.preventDefault();
+                              });
+interact('.categoryItem5').on('tap', function (event) {
+                              $(".categoryItem5").click();
+                              
+                              event.preventDefault();
+                              });
+interact('.categoryItem6').on('tap', function (event) {
+                              $(".categoryItem6").click();
+                              
+                              event.preventDefault();
+                              });
+interact('.categoryItem8').on('tap', function (event) {
+                              $(".categoryItem8").click();
+                              
+                              event.preventDefault();
+                              });
