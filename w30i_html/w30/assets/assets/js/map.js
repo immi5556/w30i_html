@@ -137,16 +137,19 @@ function getCustomerAPICall(lat, lng, miles, min){
                       }*/
                      $(".popContent h2").text("Retrieving Businesses");
                      $(".popContent strong").text("There seem to be no businesses in your range currently");
+                     $(".popContent span").text("");
                      $(".pop_up").show();
                      loadMap([]);
                      }else if(result.Message == "NoAccess"){
                      $(".popContent h2").text("Retrieving Businesses");
                      $(".popContent strong").text("There seem to be no access to this service");
+                     $(".popContent span").text("");
                      $(".pop_up").show();
                      loadMap([]);
                      }else if(result.Message == "Distance matrix error"){
                      $(".popContent h2").text("Retrieving Businesses");
                      $(".popContent strong").text("There seem to be some problem. Please try again");
+                     $(".popContent span").text("");
                      $(".pop_up").show();
                      loadMap([]);
                      }
@@ -154,6 +157,7 @@ function getCustomerAPICall(lat, lng, miles, min){
     request1.fail(function(jqXHR, textStatus) {
                   $(".popContent h2").text("Retrieving Businesses");
                   $(".popContent strong").text("Your request didn't go through. Please try again");
+                  $(".popContent span").text("");
                   $(".pop_up").show();
                   });
 }
@@ -166,6 +170,7 @@ var successFunction = function(pos){
 var errorFunction = function(err){
     $(".popContent h2").text("Status");
     $(".popContent strong").text("Not able to retrieve your location. Please check your location settings.");
+    $(".popContent span").text("");
     $(".pop_up").show();
     /*milesValue = 60;
      minutesValue = 60;
@@ -631,7 +636,7 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
     request1.success(function(result) {
                      if(result.Status == "Ok"){
                      $(".popContent h2").text("Appointment Status");
-                     //$(".popContent strong").text("Confirmed");
+                     $(".popContent strong").text("");
                      if(result.Data.selecteddate == moment.tz(abbrs[timeZone]).format("YYYY-MM-DD"))
                      $(".popContent span").text("See you At "+result.startTime);
                      else
@@ -676,14 +681,14 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                                 }, timeout, index, i);
                      }else{
                      $(".popContent h2").text("Appointment Status");
-                     //$(".popContent strong").text("Not Booked");
+                     $(".popContent strong").text("");
                      $(".popContent span").text(result.Message);
                      $(".pop_up").show();
                      }
                      });
     request1.fail(function(jqXHR, textStatus) {
                   $(".popContent h2").text("Appointment Status");
-                  //$(".popContent strong").text("Failed");
+                  $(".popContent strong").text("");
                   $(".popContent span").text("Your request didn't go through. Please try again");
                   $(".pop_up").show();
                   });
@@ -747,6 +752,7 @@ function startDirection(){
                            } else{
                            $(".popContent h2").text("Direction Services");
                            $(".popContent strong").text("There seem to be some problem with internet connection.");
+                           $(".popContent span").text("");
                            $(".pop_up").show();
                            }
                            });
@@ -881,14 +887,14 @@ var getAppointments = function(callback){
                          callback(result.Data);
                          }else{
                          $(".popContent h2").text("Get Appointment Status");
-                         //$(".popContent strong").text("Failed");
+                         $(".popContent strong").text("");
                          $(".popContent span").text("Something went wrong. Try again");
                          $(".pop_up").show();
                          }
                          });
         request1.fail(function(jqXHR, textStatus) {
                       $(".popContent h2").text("Get Appointment Status");
-                      //$(".popContent strong").text("Failed");
+                      $(".popContent strong").text("");
                       $(".popContent span").text("Your request didn't go through. Please try again");
                       $(".pop_up").show();
                       });

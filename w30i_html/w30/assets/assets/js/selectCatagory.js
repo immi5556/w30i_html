@@ -36,7 +36,11 @@ var successFunction = function(){
     }
 }
 var errorFunction = function(){
-    alert("Not able to retrieve your location. Check location settings.");
+    //alert("Not able to retrieve your location. Check location settings.");
+    $(".popContent h2").text("Get Location");
+    $(".popContent strong").text("");
+    $(".popContent span").text("Not able to retrieve your location. Check location settings.");
+    $(".pop_up").show();
 }
 
 function getLocation(lat, lng) {
@@ -56,16 +60,26 @@ function getLocation(lat, lng) {
             }
           });
           if($("#pac-input").val().length == 0)
-              alert("Not able to get your locality name");
+              //alert("Not able to get your locality name");
+                $(".popContent h2").text("Get Location");
+                $(".popContent strong").text("");
+                $(".popContent span").text("Not able to get your locality name");
+                $(".pop_up").show();
           $('body').removeClass('bodyload');
         } else {
-          alert("Not able to get your location. Please restart the app.");
-          console.log("No results found");
+          //alert("Not able to get your location. Please restart the app.");
+            $(".popContent h2").text("Get Location");
+            $(".popContent strong").text("");
+            $(".popContent span").text("Not able to get your location. Please restart the app.");
+            $(".pop_up").show();
           $('body').removeClass('bodyload');
         }
       } else {
-          alert("Not able to get your location. Please restart the app.");
-          console.log("Geocoder failed due to: " + status);
+          //alert("Not able to get your location. Please restart the app.");
+            $(".popContent h2").text("Get Location");
+            $(".popContent strong").text("");
+            $(".popContent span").text("Not able to get your location. Please restart the app.");
+            $(".pop_up").show();
       }
     });
   }
@@ -132,11 +146,15 @@ var getServices = function (){
                                                       mySearchField: "name"
                                                       })
                      startFunc();
-                     });
+    });
     request1.fail(function(jqXHR, textStatus) {
                   $('body').removeClass('bodyload');
-                  alert("Not able to get services. Try Again");
-                  });
+                  //alert("Not able to get services. Try Again");
+                  $(".popContent h2").text("Get Services");
+                  $(".popContent strong").text("");
+                  $(".popContent span").text("Not able to get services. Try Again.");
+                  $(".pop_up").show();
+    });
 }
 
 $('.currentLocation .fa-pencil').click(function(){
@@ -155,7 +173,14 @@ $(document).on("click",function(){
 $(".autoSearch2").focus(function(){
                         searcfield = true;
                         $(".searchbox1").css("margin-bottom", "100px");
-                        })
+                        });
+
+$(".popContent").on("click", function(e){
+                    e.stopPropagation();
+                    });
+$(".pop_up, .closePop").on("click", function(){
+                           $(".pop_up").hide();
+                           });
 
 $('.autoComplete .fa-search').click(function(){
     var matchFound = -1;
@@ -171,7 +196,11 @@ $('.autoComplete .fa-search').click(function(){
         });
         window.location.href = "servicePage.html";
     }else{
-        alert("No Category found.");
+        //alert("No Category found.");
+        $(".popContent h2").text("Select Service");
+        $(".popContent strong").text("");
+        $(".popContent span").text("No Category found.");
+        $(".pop_up").show();
     }
 })
 $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem5, .categoryItem6, .categoryItem8").on("click", function(e){
@@ -224,7 +253,11 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
                 window.location.href = "servicePage.html";
                                                                                                        
             }else{
-                   alert("No Category found.");
+                $(".popContent h2").text("Status");
+                $(".popContent strong").text("");
+                $(".popContent span").text("No Category found.");
+                $(".pop_up").show();
+                   //alert("No Category found.");
             }
 });
 
@@ -249,7 +282,11 @@ autocomplete.addListener('place_changed', function() {
     if (!place.geometry) {
         // User entered the name of a Place that was not suggested and
         // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for input: '" + place.name + "'");
+        //window.alert("No details available for input: '" + place.name + "'");
+        $(".popContent h2").text("Change Location");
+        $(".popContent strong").text("");
+        $(".popContent span").text("No details available for input: '" + place.name + "'");
+        $(".pop_up").show();
         return;
     }else{
         searchedLat = place.geometry.location.lat();
