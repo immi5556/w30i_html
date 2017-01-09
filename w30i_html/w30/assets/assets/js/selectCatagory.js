@@ -221,25 +221,18 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
                 w30mob.callNativeApp("saveserviceid", JSON.stringify({"serviceId":serviceId}), function(data){
                         //alert(data);
                 });
-                if(!$("#pac-input").val() && $("#pac-input").val().length == 0){
+                w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":locationType}), function(data){
+                    //alert(data);
+                });
+                /*if(!$("#pac-input").val() && $("#pac-input").val().length == 0){
                         //need to do update current location on native side
                        //window.andapp.updateCurrentLocation();
                         w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
                             //alert(data);
                         });
-                       w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
-                                //alert(data);
-                       });
-                }else if(currentLocationName && currentLocationName.toUpperCase() == $("#pac-input").val().toUpperCase()){
-                        w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
-                            //alert(data);
-                        });
                 }else if(currentLocationName && currentLocationName.toUpperCase() != $("#pac-input").val().toUpperCase()){
                         latitude = searchedLat;
                         longitude = searchedLong;
-                        w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"false"}), function(data){
-                            //alert(data);
-                        });
                         w30mob.callNativeApp("saverecentlocation", JSON.stringify({"recentLocation":$("#pac-input").val()}), function(data){
                             //alert(data);
                         });
@@ -252,7 +245,7 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
                         
                         //No need of this. once confirm after testing
                         //window.andapp.updateLatLong(latitude, longitude);
-                }
+                }*/
                 window.location.href = "servicePage.html";
                                                                                                        
             }else{
@@ -273,9 +266,9 @@ $('.gpsIcon').on("click", function(){
     w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
         //alert(data);
     });
+    locationType = "true";
     startFunc();
 });
-
 var input = (document.getElementById('pac-input'));
 var autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -294,6 +287,18 @@ autocomplete.addListener('place_changed', function() {
     }else{
         searchedLat = place.geometry.location.lat();
         searchedLong = place.geometry.location.lng();
+        locationType = "false";
+        latitude = searchedLat;
+        longitude = searchedLong;
+        w30mob.callNativeApp("saverecentlocation", JSON.stringify({"recentLocation":$("#pac-input").val()}), function(data){
+                //alert(data);
+        });
+        w30mob.callNativeApp("savecustomelat", JSON.stringify({"customeLat":latitude.toString()}), function(data){
+            //alert(data);
+            w30mob.callNativeApp("savecustomelong", JSON.stringify({"customeLong":longitude.toString()}), function(data){
+                //alert(data);
+            });
+        });
     }
 });
 

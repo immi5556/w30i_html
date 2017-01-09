@@ -839,6 +839,7 @@ var getDetails = function(){
     });
 }
 var init = function(){
+    
     w30mob.callNativeApp("getoverlaystate", null, function(state){
         if(state == "false"){
             $(".imgContainer").show();
