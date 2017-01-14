@@ -73,8 +73,6 @@ var getServices = function (){
 var setView = function(data){
     var pendingSlots = data.pendingSlots;
     var finishedSlots = data.finishedSlots;
-    var myTime = moment().format("YYYY-MM-DD HH:mm");
-    
     
     pendingSlots.forEach(function(item, index){
                          var temp = "";

@@ -711,6 +711,10 @@ $(".help").on("click", function(){
               $(".container").hide();
               });
 
+$(".viewAppointments").on("click", function(){
+              window.location.href = "appointments.html";
+});
+
 $(".locateMe").on("click", function(){
                   map.setCenter({lat:latitude, lng:longitude});
                   });
