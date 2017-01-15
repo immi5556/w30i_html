@@ -5,6 +5,9 @@ var mobilenumber;
 w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"true"}), function(data){
                      //alert(data);
                      });
+w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
+                     //alert(data);
+                     });
 
 var checkEmailBox = function(){
     if (!$(".email").val())	{
