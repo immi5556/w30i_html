@@ -1,5 +1,5 @@
 var w30Credentials = "win-HQGQ:zxosxtR76Z80";
-var servurl = "https://services.within30.com/";     //"https://services.within30.com/"
+var servurl = "https://services.within30.com/";
 var geocoder = new google.maps.Geocoder();
 var latitude, longitude;
 var cities = [];
@@ -20,14 +20,20 @@ $('.serviceSection').on('swipeup',function(){
 });
 
 $(".user").on("click", function(){
+              $("body").addClass("bodyload");
               window.location.href = "editScreen.html";
+              $("body").removeClass("bodyload");
               });
 
 $(".menuList1").on("click", function(){
+                   $("body").addClass("bodyload");
                    window.location.href = "selectCatagory.html";
+                   $("body").removeClass("bodyload");
                    });
 $(".settings").on("click", function(){
+                  $("body").addClass("bodyload");
                   window.location.href = "location.html";
+                  $("body").removeClass("bodyload");
                   });
 /*$(".menuList2, .menuList3, .menuList5, .menuList6, .menuList7").on("click", function(){
 	alert("Not yet launched. Launching Soon.");

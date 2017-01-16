@@ -114,6 +114,7 @@ var updateData = function(type){
                         });
                          //need to write in native code
                          //window.andapp.showToast("Updated Successfully...");
+                         $("body").removeClass("bodyload");
                          $(".popContent h2").text("Profile Update");
                          $(".popContent strong").text("Successfully Updated");
                          $(".pop_up").show();
@@ -121,14 +122,17 @@ var updateData = function(type){
                          }
                          });
         request1.fail(function(jqXHR, textStatus) {
+                      $("body").removeClass("bodyload");
                       console.log(textStatus);
         });
     }else{
+        $("body").removeClass("bodyload");
         console.log("fill all fields");
     }
 }
 
 $(".updt").on("click", function(){
+              $("body").addClass("bodyload");
               updateData("updateenduser");
               });
 
@@ -137,6 +141,7 @@ $(".repeat").on("click", function(){
                 });
 $(".back").on("click", function(){
               /*window.location.href = "servicePage.html";*/
+              $("body").addClass("bodyload");
               history.back();
               });
 $(".popContent").on("click", function(e){
@@ -148,6 +153,7 @@ $(".pop_up, .closePop").on("click", function(){
                            });
 
 function goBack(){
+    $("body").addClass("bodyload");
     history.back();
 }
 

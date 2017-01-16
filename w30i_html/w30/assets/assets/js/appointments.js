@@ -8,10 +8,12 @@ $('.tabModule').gbTab({
                       })
 
 $(".back").on("click", function(){
+              $("body").addClass("bodyload");
               window.location.href = "selectCatagory.html";
               });
 
 var goBack = function(){
+    $("body").addClass("bodyload");
     window.location.href = "selectCatagory.html";
 }
 
@@ -21,6 +23,7 @@ var refreshOnForeground = function(){
 var locationChange = function(){}
 
 var submitRating = function(appointmentId, rating, subdomain){
+    $("body").addClass("bodyload");
     var request1 = $.ajax({
                           url: servurl + "endpoint/api/submitrating",
                           type: "POST",
@@ -31,6 +34,7 @@ var submitRating = function(appointmentId, rating, subdomain){
                           contentType: "application/json; charset=UTF-8"
                           });
     request1.success(function(result) {
+                     $("body").removeClass("bodyload");
                      if(result.Status == "Success"){
                         $(".popContent h2").text("Submit Rating");
                         $(".popContent span").text("Thanks for Rating.");
@@ -42,6 +46,7 @@ var submitRating = function(appointmentId, rating, subdomain){
                      }
                      });
     request1.fail(function(jqXHR, textStatus) {
+                  $("body").removeClass("bodyload");
                   $(".popContent h2").text("Submit Rating");
                   //$(".popContent strong").text("Failed");
                   $(".popContent span").text("Your request didn't go through. Please try again");
@@ -50,7 +55,6 @@ var submitRating = function(appointmentId, rating, subdomain){
 }
 
 var getServices = function (){
-    $('body').addClass('bodyload');
     var request1 = $.ajax({
                           url: servurl + "endpoint/api/getmyservices",
                           type: "POST",
@@ -73,6 +77,12 @@ var getServices = function (){
 var setView = function(data){
     var pendingSlots = data.pendingSlots;
     var finishedSlots = data.finishedSlots;
+    if(pendingSlots.length == 0){
+        $("#noPending").css("display", "block");
+    }
+    if(finishedSlots.length == 0){
+        $("#noPending").css("display", "noFinish");
+    }
     
     pendingSlots.forEach(function(item, index){
                          var temp = "";
@@ -137,6 +147,7 @@ var setView = function(data){
                           }
                           
                           });
+    $("body").removeClass("bodyload");
 }
 
 var getAppointments = function(){
@@ -155,6 +166,7 @@ var getAppointments = function(){
                          getServices();
                          setView(result);
                          }else{
+                         $("body").removeClass("bodyload");
                          $(".popContent h2").text("Get Appointment Status");
                          //$(".popContent strong").text("Failed");
                          $(".popContent span").text("Something went wrong. Try again");
@@ -162,17 +174,19 @@ var getAppointments = function(){
                          }
                          });
         request1.fail(function(jqXHR, textStatus) {
+                      $("body").removeClass("bodyload");
                       $(".popContent h2").text("Get Appointment Status");
                       //$(".popContent strong").text("Failed");
                       $(".popContent span").text("Your request didn't go through. Please try again");
                       $(".pop_up").show();
                       });
     }else{
+        $("body").removeClass("bodyload");
         alert("Something went wrong. Try again");
     }
 }
 
-
+$("body").addClass("bodyload");
 w30mob.callNativeApp("getlocationtype", null, function(type){
     if(type == "true" ){
         w30mob.callNativeApp("getlatitude", null, function(lat){

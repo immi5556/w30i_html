@@ -4,6 +4,7 @@ var w30Credentials = "win-HQGQ:zxosxtR76Z80";
 var cities = [];
 
 $('.usegps').on("click", function(){
+                $("body").addClass("bodyload");
                 //window.andapp.updateCurrentLocation();
                 w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
                     //alert(data);
@@ -20,6 +21,7 @@ $(document).on("click", function(){
 });
 
 $(".back").on("click", function(){
+              $("body").addClass("bodyload");
               window.location.href = "servicePage.html";
 });
 
@@ -31,11 +33,14 @@ $(".fa-search").on("click", function(e){
                    });
 
 var setRecentBlock = function(){
+    $("body").addClass("bodyload");
     w30mob.callNativeApp("getrecentlocation", null, function(data){
                          var recentSearch = data;
                          if(recentSearch.length > 0 && recentSearch != "Nil"){
                          $(".recentSearch p").text(recentSearch);
+                         $("body").removeClass("bodyload");
                          $(".recentSearch").on("click", function(){
+                                               $("body").addClass("bodyload");
                                                w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"false"}), function(data){
                                                                     //alert(data);
                                                                     });
@@ -43,6 +48,7 @@ var setRecentBlock = function(){
                                                window.location.href = "servicePage.html";
                                                });
                          }else{
+                         $("body").removeClass("bodyload");
                          $(".recentSearch p").text("No recent search");
                          }
                          });
@@ -70,6 +76,7 @@ autocomplete.addListener('place_changed', function() {
         window.alert("No details available for input: '" + place.name + "'");
         return;
     }else{
+                         $("body").addClass("bodyload");
         var searchedLat = place.geometry.location.lat();
         var searchedLong = place.geometry.location.lng();
         w30mob.callNativeApp("savelocationtype", JSON.stringify({"locationType":"false"}), function(data){
@@ -90,6 +97,7 @@ autocomplete.addListener('place_changed', function() {
 });
 
 function goBack(){
+    $("body").addClass("bodyload");
     window.history.back();
 }
 

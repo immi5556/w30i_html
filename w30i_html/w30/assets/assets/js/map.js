@@ -34,6 +34,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 directionsDisplay.setOptions( { suppressMarkers: true, preserveViewport: true } );
 var directionStop = 1;
 var websiteBackButton = false;
+var reload = false;
 
 $(".serviceSection").swipe( {
                            swipeUp:function(event, direction, distance, duration) {
@@ -299,16 +300,20 @@ var loadMap = function(docs){
             $(".companyAddr").text(companyAddr);
             //$(".website").attr("href","https://"+docs[i].subdomain+urlLink);
             $(".phoneCall").on("click", function(){
+                               $("body").addClass("bodyload");
                     calling = "true";
                     websiteBackButton = true;
                     w30mob.callNativeApp("calling", JSON.stringify({"phoneNumber":docs[i].mobile}), function(data){
                     });
+                               $("body").removeClass("bodyload");
             });
             $(".website").on("click", function(){
+                             $("body").addClass("bodyload");
                     website = "true";
                     websiteDomain = docs[i].subdomain;
                     websiteBackButton = true;
                     window.location.href = "https://"+docs[i].subdomain+urlLink+"?source=IOSSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid;
+                             $("body").removeClass("bodyload");
             });
             $(".businessHours").text("Business Hours: "+customers[i].startHour+" - "+customers[i].endHour);
             $(".directionArrowBottom").hide();
@@ -369,6 +374,7 @@ var loadMap = function(docs){
                 $(".btn_dir").hide();
                 $(".btn_dirStp").hide();
                 $(".btn_sch").off().on("click", function(){
+                                       $("body").addClass("bodyload");
                                  bookSlot(subdomain, i, customers[i].nextSlotAt, customers[i].timeZone, customers[i].nextSlotDate);
                 });
                 $(".btn_dir").off().on("click", function(){
@@ -610,94 +616,116 @@ var calculateDifference = function(timeZone, result){
 }
 
 function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
-    var localTime;
-    var today  = moment.tz(abbrs[timeZone]).format("YYYY-MM-DD");
-    if(slotDate != today){
-        localTime = slotDate+" "+slotAt;
-    }else{
-        localTime  = moment.tz(abbrs[timeZone]).format("HH:mm")
-        if(slotAt < localTime)
-            localTime  = moment.tz(abbrs[timeZone]).format("YYYY-MM-DD HH:mm");
-        else{
-            localTime  = moment.tz(abbrs[timeZone]).format("YYYY-MM-DD HH:mm");
-            localTime = localTime.substring(0, localTime.length-5)+""+slotAt;
-        }
-    }
-    var request1 = $.ajax({
-                          url: servurl + "endpoint/api/bookslot",
-                          type: "POST",
-                          beforeSend: function (xhr) {
-                          xhr.setRequestHeader ("Authorization", "Basic " + btoa(w30Credentials));
-                          },
-                          data: JSON.stringify({"subDomain":subdomain,"businessType": serviceName,"date":localTime,"email":email,"mobile":mobilenumber,"minutes":"30", "userId":userid, "source": "IOSMapApp"}),
-                          contentType: "application/json; charset=UTF-8"
-                          });
-    
-    request1.success(function(result) {
-                     if(result.Status == "Ok"){
-                     $(".popContent h2").text("Appointment Status");
-                     $(".popContent strong").text("");
-                     if(result.Data.selecteddate == moment.tz(abbrs[timeZone]).format("YYYY-MM-DD"))
-                     $(".popContent span").text("See you At "+result.startTime);
-                     else
-                     $(".popContent span").text("See you At "+moment(result.Data.selecteddate).format("MM/DD")+" "+result.startTime);
-                     $(".pop_up").show();
-                     $(".btn_sch").hide();
-                     $(".btn_dir").show();
-                     /*$(".serviceSection").animate({height:'0'},500);
-                      $('.shadow').hide();*/
-                     bookedSlotAt.push(result.startTime);
-                     bookedSlotDate.push(result.Data.selecteddate);
-                     bookedSlotSubdomain.push(result.Data.subdomain);
-                     if(customers[i].premium){
-                     markers[i].setIcon(localImagePath+"premiumCheckedInMarker1.png");
-                     }else{
-                     markers[i].setIcon(localImagePath+"checkedInMarker1.png");
-                     }
-                     socketio.emit("newAppointment", result.Data);
-                     var timeout = calculateDifference(timeZone, result);
-                     var index = bookedSlotAt.length-1;
-                     bookedBusiness = index;
-                     setTimeout(function(){
-                                bookedSlotAt.splice(index, 1);
-                                bookedSlotDate.splice(index, 1);
-                                bookedSlotSubdomain.splice(index, 1);
-                                var icon = "";
-                                sliderTime = moment().tz(abbrs[customers[i].timeZone]).add(minutesValue, "minutes").format("HH:mm");
-                                if(moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate || customers[i].nextSlotAt > sliderTime){
-                                if(customers[i].premium)
-                                icon = "premiumRedMarker2";
-                                else
-                                icon = "redMarker2";
-                                }else {
-                                if(customers[i].premium)
-                                icon = "premiumGreenMarker2";
-                                else
-                                icon = "greenMarker2";
-                                }
-                                
-                                markers[i].setIcon(localImagePath+icon+".png");
-                                
-                                }, timeout, index, i);
-                     }else{
-                     $(".popContent h2").text("Appointment Status");
-                     $(".popContent strong").text("");
-                     $(".popContent span").text(result.Message);
-                     $(".pop_up").show();
-                     }
-                     });
-    request1.fail(function(jqXHR, textStatus) {
-                  $(".popContent h2").text("Appointment Status");
-                  $(".popContent strong").text("");
-                  $(".popContent span").text("Your request didn't go through. Please try again");
-                  $(".pop_up").show();
-                  });
+    getAppointments(function(data){
+                    var pendingSlotsCount = 0;
+                    data.pendingSlots.forEach(function(item, index){
+                                         if(item.subdomain == subdomain){
+                                         pendingSlotsCount++;
+                                         }
+                                         });
+                    if(pendingSlotsCount != 0){
+                        $(".popContent h2").text("Appointment Status");
+                        $(".popContent strong").text("");
+                        $(".popContent span").text("You already have a future appointment for this business. Cant book again.");
+                        $(".pop_up").show();
+                        reload = true;
+                    }else{
+                    
+                    var localTime;
+                    var today  = moment.tz(abbrs[timeZone]).format("YYYY-MM-DD");
+                    if(slotDate != today){
+                    localTime = slotDate+" "+slotAt;
+                    }else{
+                    localTime  = moment.tz(abbrs[timeZone]).format("HH:mm")
+                    if(slotAt < localTime)
+                    localTime  = moment.tz(abbrs[timeZone]).format("YYYY-MM-DD HH:mm");
+                    else{
+                    localTime  = moment.tz(abbrs[timeZone]).format("YYYY-MM-DD HH:mm");
+                    localTime = localTime.substring(0, localTime.length-5)+""+slotAt;
+                    }
+                    }
+                    var request1 = $.ajax({
+                                          url: servurl + "endpoint/api/bookslot",
+                                          type: "POST",
+                                          beforeSend: function (xhr) {
+                                          xhr.setRequestHeader ("Authorization", "Basic " + btoa(w30Credentials));
+                                          },
+                                          data: JSON.stringify({"subDomain":subdomain,"businessType": serviceName,"date":localTime,"email":email,"mobile":mobilenumber,"minutes":"30", "userId":userid, "source": "IOSMapApp"}),
+                                          contentType: "application/json; charset=UTF-8"
+                                          });
+                    
+                    request1.success(function(result) {
+                                     $("body").removeClass("bodyload");
+                                     if(result.Status == "Ok"){
+                                     $(".popContent h2").text("Appointment Status");
+                                     $(".popContent strong").text("");
+                                     if(result.Data.selecteddate == moment.tz(abbrs[timeZone]).format("YYYY-MM-DD"))
+                                     $(".popContent span").text("See you At "+result.startTime);
+                                     else
+                                     $(".popContent span").text("See you At "+moment(result.Data.selecteddate).format("MM/DD")+" "+result.startTime);
+                                     $(".pop_up").show();
+                                     $(".btn_sch").hide();
+                                     $(".btn_dir").show();
+                                     /*$(".serviceSection").animate({height:'0'},500);
+                                      $('.shadow').hide();*/
+                                     bookedSlotAt.push(result.startTime);
+                                     bookedSlotDate.push(result.Data.selecteddate);
+                                     bookedSlotSubdomain.push(result.Data.subdomain);
+                                     if(customers[i].premium){
+                                     markers[i].setIcon(localImagePath+"premiumCheckedInMarker1.png");
+                                     }else{
+                                     markers[i].setIcon(localImagePath+"checkedInMarker1.png");
+                                     }
+                                     socketio.emit("newAppointment", result.Data);
+                                     var timeout = calculateDifference(timeZone, result);
+                                     var index = bookedSlotAt.length-1;
+                                     bookedBusiness = index;
+                                     setTimeout(function(){
+                                                bookedSlotAt.splice(index, 1);
+                                                bookedSlotDate.splice(index, 1);
+                                                bookedSlotSubdomain.splice(index, 1);
+                                                var icon = "";
+                                                sliderTime = moment().tz(abbrs[customers[i].timeZone]).add(minutesValue, "minutes").format("HH:mm");
+                                                if(moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate || customers[i].nextSlotAt > sliderTime){
+                                                if(customers[i].premium)
+                                                icon = "premiumRedMarker2";
+                                                else
+                                                icon = "redMarker2";
+                                                }else {
+                                                if(customers[i].premium)
+                                                icon = "premiumGreenMarker2";
+                                                else
+                                                icon = "greenMarker2";
+                                                }
+                                                
+                                                markers[i].setIcon(localImagePath+icon+".png");
+                                                
+                                                }, timeout, index, i);
+                                     }else{
+                                     $(".popContent h2").text("Appointment Status");
+                                     $(".popContent strong").text("");
+                                     $(".popContent span").text(result.Message);
+                                     $(".pop_up").show();
+                                     }
+                                     });
+                    request1.fail(function(jqXHR, textStatus) {
+                                  $("body").removeClass("bodyload");
+                                  $(".popContent h2").text("Appointment Status");
+                                  $(".popContent strong").text("");
+                                  $(".popContent span").text("Your request didn't go through. Please try again");
+                                  $(".pop_up").show();
+                                  });
+                    }
+                    });
+    $("body").removeClass("bodyload");
 }
 $(".popContent").on("click", function(e){
                     e.stopPropagation();
                     });
 $(".pop_up, .closePop").on("click", function(){
                            $(".pop_up").hide();
+                           if(reload)
+                            location.reload();
                            });
 
 $(".imgContainer").on("click", function(){
@@ -712,7 +740,9 @@ $(".help").on("click", function(){
               });
 
 $(".viewAppointments").on("click", function(){
+                          $("body").addClass("bodyload");
               window.location.href = "appointments.html";
+                          $("body").removeClass("bodyload");
 });
 
 $(".locateMe").on("click", function(){
@@ -884,12 +914,12 @@ var getAppointments = function(callback){
                               beforeSend: function (xhr) {
                               xhr.setRequestHeader ("Authorization", "Basic " + btoa(w30Credentials));
                               },
-                              data: JSON.stringify({"userId":userid}),
+                              data: JSON.stringify({"userId":userid, "latitude": latitude, "longitude": longitude, "currentTime": moment().format("YYYY-MM-DD HH:mm")}),
                               contentType: "application/json; charset=UTF-8"
                               });
         request1.success(function(result) {
                          if(result.Status == "Ok"){
-                         callback(result.Data);
+                         callback(result);
                          }else{
                          $(".popContent h2").text("Get Appointment Status");
                          $(".popContent strong").text("");
@@ -934,27 +964,9 @@ function locationChange(newLat, newLong){
 }
 
 var refreshOnForeground = function(){
+    $("body").removeClass("bodyload");
     if(calling == "false"){
         location.reload();
-    }
-    if(website == "true"){
-        var pendingSlots = [];
-        getAppointments(function(data){
-                        var myTime = moment().format("YYYY-MM-DD HH:mm");
-                        
-                        data.forEach(function(item, index){
-                                     var appointmentTime = item.selecteddate+" "+item.starttime;
-                                     if(appointmentTime > myTime){
-                                     pendingSlots.push(item);
-                                     }
-                                     });
-                        pendingSlots.forEach(function(item, index){
-                                             if(item.subdomain == websiteDomain){
-                                             $(".shadow").click();
-                                             location.reload();
-                                             }
-                                             });
-                        });
     }
 }
 

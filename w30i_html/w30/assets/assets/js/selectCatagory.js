@@ -77,6 +77,7 @@ function getLocation(lat, lng) {
         }
       } else {
           //alert("Not able to get your location. Please restart the app.");
+            $('body').removeClass('bodyload');
             $(".popContent h2").text("Get Location");
             $(".popContent strong").text("");
             $(".popContent span").text("Not able to get your location. Please restart the app.");
@@ -208,6 +209,7 @@ $('.autoComplete .fa-search').click(function(){
 
 $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem5, .categoryItem6, .categoryItem8").on("click", function(e){
             e.stopPropagation();
+            $('body').addClass('bodyload');
             var matchFound = -1;
             var textVal = $(this).find("strong").text();
             services[0].forEach(function(item, index){
@@ -246,9 +248,11 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
                         //No need of this. once confirm after testing
                         //window.andapp.updateLatLong(latitude, longitude);
                 }*/
+                                                                                                                       //$('body').removeClass('bodyload');
                 window.location.href = "servicePage.html";
                                                                                                        
             }else{
+                                                                                                                       $('body').removeClass('bodyload');
                 $(".popContent h2").text("Status");
                 $(".popContent strong").text("");
                 $(".popContent span").text("No Category found.");
@@ -258,6 +262,7 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
 });
 
 $('.gpsIcon').on("click", function(){
+                 $('body').addClass('bodyload');
     //need to do update current location on native side
     //window.andapp.updateCurrentLocation();
     w30mob.callNativeApp("updatelocationfetchvalue", JSON.stringify({"newValue":"true"}), function(data){
@@ -304,6 +309,7 @@ autocomplete.addListener('place_changed', function() {
 
 
 $(".appointments").on("click", function(){
+                      $('body').addClass('bodyload');
                       window.location.href = "appointments.html";
                       });
 
