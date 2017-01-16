@@ -300,20 +300,16 @@ var loadMap = function(docs){
             $(".companyAddr").text(companyAddr);
             //$(".website").attr("href","https://"+docs[i].subdomain+urlLink);
             $(".phoneCall").on("click", function(){
-                               $("body").addClass("bodyload");
                     calling = "true";
                     websiteBackButton = true;
                     w30mob.callNativeApp("calling", JSON.stringify({"phoneNumber":docs[i].mobile}), function(data){
                     });
-                               $("body").removeClass("bodyload");
             });
             $(".website").on("click", function(){
-                             $("body").addClass("bodyload");
                     website = "true";
                     websiteDomain = docs[i].subdomain;
                     websiteBackButton = true;
                     window.location.href = "https://"+docs[i].subdomain+urlLink+"?source=IOSSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid;
-                             $("body").removeClass("bodyload");
             });
             $(".businessHours").text("Business Hours: "+customers[i].startHour+" - "+customers[i].endHour);
             $(".directionArrowBottom").hide();
@@ -740,9 +736,7 @@ $(".help").on("click", function(){
               });
 
 $(".viewAppointments").on("click", function(){
-                          $("body").addClass("bodyload");
               window.location.href = "appointments.html";
-                          $("body").removeClass("bodyload");
 });
 
 $(".locateMe").on("click", function(){
