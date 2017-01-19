@@ -81,7 +81,7 @@ var setView = function(data){
         $("#noPending").css("display", "block");
     }
     if(finishedSlots.length == 0){
-        $("#noPending").css("display", "noFinish");
+        $("#noFinish").css("display", "block");
     }
     
     pendingSlots.forEach(function(item, index){

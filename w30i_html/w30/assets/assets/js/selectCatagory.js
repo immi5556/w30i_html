@@ -185,25 +185,28 @@ $(".pop_up, .closePop").on("click", function(){
                            });
 
 $('.autoComplete .fa-search').click(function(){
-    var matchFound = -1;
-    services[0].forEach(function(item, index){
-        if(item.name.toLowerCase() == $(".autoSearch2").val().toLowerCase()){
-            matchFound = index;
-            serviceId = item._id;
-        }
-    });
-    if(matchFound != -1){
-        w30mob.callNativeApp("saveserviceid", JSON.stringify({"serviceId":serviceId}), function(data){
-            //alert(data);
-        });
-        window.location.href = "servicePage.html";
-    }else{
-        //alert("No Category found.");
-        $(".popContent h2").text("Select Service");
-        $(".popContent strong").text("");
-        $(".popContent span").text("No Category found.");
-        $(".pop_up").show();
-    }
+                                    if($(".autoSearch2").val().length > 0){
+                                    var matchFound = -1;
+                                    services[0].forEach(function(item, index){
+                                                        if(item.name.toLowerCase() == $(".autoSearch2").val().toLowerCase()){
+                                                        matchFound = index;
+                                                        serviceId = item._id;
+                                                        }
+                                                        });
+                                    if(matchFound != -1){
+                                    w30mob.callNativeApp("saveserviceid", JSON.stringify({"serviceId":serviceId}), function(data){
+                                                         //alert(data);
+                                                         });
+                                    window.location.href = "servicePage.html";
+                                    }else{
+                                    //alert("No Category found.");
+                                    $(".popContent h2").text("Select Service");
+                                    $(".popContent strong").text("");
+                                    $(".popContent span").text("No Category found.");
+                                    $(".pop_up").show();
+                                    }
+                                    }
+    
 })
 
 
