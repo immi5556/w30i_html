@@ -23,6 +23,7 @@ struct Keys {
     static let OverlayState = "W30_Overlay_State"
     static let DeviceLatitude = "W30_DeviceLatitude"
     static let DeviceLongitude = "W30_DeviceLongitude"
+    static let CountryName = "W30_CountryName"
 }
 
 class SharedStorage {
@@ -210,6 +211,18 @@ class SharedStorage {
     static func SetUserId(value: String) {
         let defaults = UserDefaults.standard
         defaults.set(value, forKey: Keys._ID)
+        defaults.synchronize()
+    }
+    static func GetCountryName() -> String {
+        let defaults = UserDefaults.standard
+        if let token = defaults.string(forKey: Keys.CountryName) {
+            return token
+        }
+        return "Nil";
+    }
+    static func SetCountryName(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.CountryName)
         defaults.synchronize()
     }
 }

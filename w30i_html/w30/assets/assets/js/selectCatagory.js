@@ -9,6 +9,7 @@ var serviceId = "";
 var locationType;
 var recentSearch;
 var currentLocationName, gotUserLocation, customeLocationName;
+var country = "";
 
 var circleMenu = function(){
     var classesExist = $(".menu-button").attr("class").split(" ");
@@ -57,6 +58,12 @@ function getLocation(lat, lng) {
                   currentLocationName = address_component.address_components[0].long_name;
               else
                   currentLocationName = null;
+            }
+            if (address_component.types[0] == "country") {
+                 country = address_component.address_components[0].long_name;
+                 w30mob.callNativeApp("savecountryname", JSON.stringify({"countryName":country}), function(data){
+                                      //alert(data);
+                });
             }
           });
             if($("#pac-input").val().length == 0){

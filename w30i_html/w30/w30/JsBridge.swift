@@ -53,6 +53,12 @@ class JsBridge {
         if vv?.lowercased() == "getoverlaystate" {
             retstr = GetOverlayState()
         }
+        if vv?.lowercased() == "savecountryname" {
+            retstr = SetCountryName(dict: dict)
+        }
+        if vv?.lowercased() == "getcountryname" {
+            retstr = GetCountryName()
+        }
         if vv?.lowercased() == "getfirstname" {
             retstr = GetFirstName()
         }
@@ -181,6 +187,18 @@ class JsBridge {
     
     static func GetOverlayState() -> String{
         return SharedStorage.GetOverlayState();
+    }
+    
+    static func SetCountryName(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["countryName"] as? String{
+            SharedStorage.SetCountryName(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetCountryName() -> String{
+        return SharedStorage.GetCountryName();
     }
     
     static func GetFirstName() -> String{

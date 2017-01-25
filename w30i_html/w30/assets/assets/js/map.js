@@ -35,6 +35,7 @@ directionsDisplay.setOptions( { suppressMarkers: true, preserveViewport: true } 
 var directionStop = 1;
 var websiteBackButton = false;
 var reload = false;
+var country = "";
 
 $(".serviceSection").swipe( {
                            swipeUp:function(event, direction, distance, duration) {
@@ -119,6 +120,8 @@ function getCustomerAPICall(lat, lng, miles, min){
     request1.success(function(result) {
                      if(result.Status == "Ok"){
                      milesValue = 30;
+                     if(country == "India")
+                        milesValue = 18.6;
                      minutesValue = 30;
                      loadMap(result.Data);
                      }else if(result.Message == "No customers available"){
@@ -162,21 +165,17 @@ function getCustomerAPICall(lat, lng, miles, min){
                   $(".pop_up").show();
                   });
 }
-var successFunction = function(pos){
+var successFunction = function(){
     milesValue = 60;
     minutesValue = 60;
     getServices();
     getCustomerAPICall(latitude, longitude, milesValue, minutesValue);
 }
-var errorFunction = function(err){
+var errorFunction = function(){
     $(".popContent h2").text("Status");
     $(".popContent strong").text("Not able to retrieve your location. Please check your location settings.");
     $(".popContent span").text("");
     $(".pop_up").show();
-    /*milesValue = 60;
-     minutesValue = 60;
-     getServices();
-     getCustomerAPICall(latitude, longitude, milesValue, minutesValue);*/
 }
 
 var loadMap = function(docs){
@@ -296,7 +295,10 @@ var loadMap = function(docs){
                 starWidth: "10px"
             });
             $(".rating span").text("("+ratingCount+")");
-            $(".milesVal").text(customers[i].destinationDistance.toFixed(2)+" Miles");
+            if(country == "India")
+                $(".milesVal").text((customers[i].destinationDistance*1.60934).toFixed(2)+" KMs");
+            else
+                $(".milesVal").text(customers[i].destinationDistance.toFixed(2)+" Miles");
             $(".companyAddr").text(companyAddr);
             //$(".website").attr("href","https://"+docs[i].subdomain+urlLink);
             $(".phoneCall").on("click", function(){
@@ -434,7 +436,12 @@ var loadMap = function(docs){
     changeCircle();
     
     milesValue = 30;
-    $('.range-slider.slideMil').foundation('slider', 'set_value', milesValue);
+    if(country == "India"){
+        milesValue = 18.6;
+        $('.range-slider.slideMil').foundation('slider', 'set_value', (milesValue*1.60934).toFixed(0));
+    }else{
+        $('.range-slider.slideMil').foundation('slider', 'set_value', milesValue);
+    }
     minutesValue = 30;
     $('.range-slider.slideMin').foundation('slider', 'set_value', minutesValue);
     $("body").on('DOMSubtreeModified', "span#sliderOutput2", function () {
@@ -476,18 +483,23 @@ var loadMap = function(docs){
                  }else{
                  milesValue = parseInt($(this).text());
                  }
-                 
+                 if(country == "India")
+                    milesValue = (milesValue*0.621371).toFixed(0);
                  milesSlide(milesValue);
                  }
                  }
-                 if($(this).text() == "NaN")
-                 $(this).text(milesValue);
+                 if($(this).text() == "NaN"){
+                    if(country == "India")
+                        $(this).text((milesValue*1.60934).toFixed(0));
+                    else
+                        $(this).text(milesValue);
+                 }
                  });
     $('.gm-style-iw').parent('div').css('z-index','99999');
-    if((minutesValue-4) > milesValue) {
+    if((minutesValue-4) > (milesValue*1.60934)) {
         $('.slideMin').addClass('myactive');
         $('.slideMil').removeClass('myactive');
-    }else if((minutesValue-4) < milesValue) {
+    }else if((minutesValue-4) < (milesValue*1.60934)) {
         $('.slideMin').removeClass('myactive');
         $('.slideMil').addClass('myactive');
     }
@@ -552,10 +564,10 @@ function updateMilesRadius(){
                       }
                       });
     
-    if((minutesValue-4) > milesValue) {
+    if((minutesValue-4) > (milesValue*1.60934)) {
         $('.slideMin').addClass('myactive');
         $('.slideMil').removeClass('myactive');
-    }else if((minutesValue-4) < milesValue) {
+    }else if((minutesValue-4) < (milesValue*1.60934)) {
         $('.slideMin').removeClass('myactive');
         $('.slideMil').addClass('myactive');
     }
@@ -595,10 +607,10 @@ function updateTimeRadius(min){
                       oldMarker = -1;
                       });
     
-    if((minutesValue-4) > milesValue) {
+    if((minutesValue-4) > (milesValue*1.60934)) {
         $('.slideMin').addClass('myactive');
         $('.slideMil').removeClass('myactive');
-    }else if((minutesValue-4) < milesValue) {
+    }else if((minutesValue-4) < (milesValue*1.60934)) {
         $('.slideMin').removeClass('myactive');
         $('.slideMil').addClass('myactive');
     }
@@ -855,11 +867,16 @@ var getDetails = function(){
                     serviceId = servId;
                     w30mob.callNativeApp("getfirstname", null, function(fn){
                         firstname = fn;
-                        if(!latitude && !longitude){
-                            errorFunction();
-                        }else{
-                            successFunction();
-                        }
+                        w30mob.callNativeApp("getcountryname", null, function(cn){
+                            country = cn;
+                            if(country == "India")
+                                $("#sliderOutput3").addClass("active");
+                            if(!latitude && !longitude){
+                                errorFunction();
+                            }else{
+                                successFunction();
+                            }
+                        });
                     });
                 });
             });
