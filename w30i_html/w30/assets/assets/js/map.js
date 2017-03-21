@@ -680,9 +680,9 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                                      bookedSlotDate.push(result.Data.selecteddate);
                                      bookedSlotSubdomain.push(result.Data.subdomain);
                                      if(customers[i].premium){
-                                     markers[i].setIcon(localImagePath+"premiumCheckedInMarker1.png");
+                                     markers[i].setIcon(localImagePath+"premiumCheckedInMarker2.png");
                                      }else{
-                                     markers[i].setIcon(localImagePath+"checkedInMarker1.png");
+                                     markers[i].setIcon(localImagePath+"checkedInMarker2.png");
                                      }
                                      socketio.emit("newAppointment", result.Data);
                                      var timeout = calculateDifference(timeZone, result);
@@ -869,8 +869,14 @@ var getDetails = function(){
                         firstname = fn;
                         w30mob.callNativeApp("getcountryname", null, function(cn){
                             country = cn;
-                            if(country == "India")
+                            if(country == "India"){
                                 $("#sliderOutput3").addClass("active");
+                                             $(".menuList6").show();
+                                             $(".menuList8").hide();
+                            }else{
+                                             $(".menuList8").show();
+                                             $(".menuList6").hide();
+                            }
                             if(!latitude && !longitude){
                                 errorFunction();
                             }else{
