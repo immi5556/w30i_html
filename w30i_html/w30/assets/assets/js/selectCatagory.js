@@ -31,6 +31,13 @@ var successFunction = function(){
         $('body').removeClass('bodyload');
         currentLocationName = recentSearch;
         circleMenu();
+        if(recentSearch.indexOf("India") != -1){
+            $(".categoryItem4 .cirleIcon").removeClass("attrny");
+            $(".categoryItem4 strong").text("Photography");
+        } else {
+            $(".categoryItem4 .cirleIcon").addClass("attrny");
+            $(".categoryItem4 strong").text("Attorneys");
+        }
     }else{
         getLocation(latitude, longitude);
         circleMenu();
@@ -72,6 +79,13 @@ function getLocation(lat, lng) {
                 $(".popContent strong").text("");
                 $(".popContent span").text("Not able to get your locality name.");
                 $(".pop_up").show();
+            }
+            if(country == "India"){
+                     $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                     $(".categoryItem4 strong").text("Photography");
+            } else {
+                     $(".categoryItem4 .cirleIcon").addClass("attrny");
+                     $(".categoryItem4 strong").text("Attorneys");
             }
           $('body').removeClass('bodyload');
         } else {
@@ -283,6 +297,13 @@ $('.gpsIcon').on("click", function(){
     });
     locationType = "true";
     startFunc();
+    if(country == "India"){
+                 $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                 $(".categoryItem4 strong").text("Photography");
+    } else {
+                 $(".categoryItem4 .cirleIcon").addClass("attrny");
+                 $(".categoryItem4 strong").text("Attorneys");
+    }
 });
 var input = (document.getElementById('pac-input'));
 var autocomplete = new google.maps.places.Autocomplete(input);
@@ -314,6 +335,13 @@ autocomplete.addListener('place_changed', function() {
                 //alert(data);
             });
         });
+        if($("#pac-input").val().indexOf("India") != -1){
+                         $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                         $(".categoryItem4 strong").text("Photography");
+        } else {
+                         $(".categoryItem4 .cirleIcon").addClass("attrny");
+                         $(".categoryItem4 strong").text("Attorneys");
+        }
     }
 });
 

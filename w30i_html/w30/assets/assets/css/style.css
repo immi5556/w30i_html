@@ -330,6 +330,11 @@ html {
 .categoryItem4 .cirleIcon {
     background: url(../img/catagoryIcon4-hover.png) no-repeat center center;
 }
+.categoryItem4 .cirleIcon.attrny {
+    background: url(../img/catagoryIcon01-hover.png) no-repeat center center;
+    background-size: 20px;
+    border: 1px dashed #39425f;
+}
 /*.categoryItem4:hover .cirleIcon {
 	background: url(../img/catagoryIcon4-hover.png) no-repeat center center;
  }*/
@@ -343,7 +348,7 @@ html {
     background: url(../img/catagoryIcon6-hover.png) no-repeat center center;
 }
 .categoryItem8 .cirleIcon {
-    background: url(../img/catagoryIcon8-hover.png) no-repeat center center;
+    background: url(../img/catagoryIcon02-hover.png) no-repeat center center;
 }
 /*.categoryItem6:hover .cirleIcon {
 	background: url(../img/catagoryIcon6-hover.png) no-repeat center center;
@@ -490,10 +495,12 @@ nav a {
     background: #cb2027 url(../img/cata-menuList5-hover.png) no-repeat center center;
 }
 .menuList8 {
-    background: url(../img/cata-menuList8-hover.png) no-repeat center center;
+    background: url(../img/cata-menuList08-hover.png) no-repeat center center;
+    background-size: 41px !important;
 }
 .menuList8.active {
-    background: #cb2027 url(../img/cata-menuList8-hover.png) no-repeat center center;
+    background: #cb2027 url(../img/cata-menuList08-hover.png) no-repeat center center;
+    background-size: 41px !important;
 }
 .menuList6 {
     background: url(../img/cata-menuList6.png) no-repeat center center;
@@ -502,10 +509,12 @@ nav a {
     background: #cb2027 url(../img/cata-menuList6.png) no-repeat center center;
 }
 .menuList7 {
-    background: url(../img/cata-menuList7.png) no-repeat center center;
+    background: url(../img/cata-menuList07.png) no-repeat center center;
+    background-size: 41px !important;
 }
 .menuList7.active {
-    background: #cb2027 url(../img/cata-menuList7.png) no-repeat center center;
+    background: #cb2027 url(../img/cata-menuList07.png) no-repeat center center;
+    background-size: 41px !important;
 }
 nav .settings {
     position: absolute;
