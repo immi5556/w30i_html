@@ -908,6 +908,17 @@ var init = function(){
                             getDetails();
                         });
                     });
+                    w30mob.callNativeApp("getcountryname", null, function(cn){
+                        country = cn;
+                        if(country == "India" || country == "India#" || country.toLowerCase().indexOf("india") > -1){
+                            $("#sliderOutput3").addClass("active");
+                            $(".menuList6").show();
+                            $(".menuList8").hide();
+                        }else {
+                            $(".menuList8").show();
+                            $(".menuList6").hide();
+                        }
+                    });
                 }else{
                     w30mob.callNativeApp("getcustomelat", null, function(lat){
                         latitude = Number(lat);
@@ -915,6 +926,16 @@ var init = function(){
                             longitude = Number(lng);
                             getDetails();
                         });
+                    });
+                    w30mob.callNativeApp("getrecentlocation", null, function(data){
+                        if(data == "India" || data == "India#" || data.toLowerCase().indexOf("india") > -1){
+                            $("#sliderOutput3").addClass("active");
+                            $(".menuList6").show();
+                            $(".menuList8").hide();
+                        }else {
+                            $(".menuList8").show();
+                            $(".menuList6").hide();
+                        }
                     });
                 }
             });
