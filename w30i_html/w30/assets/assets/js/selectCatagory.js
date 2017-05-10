@@ -31,6 +31,13 @@ var successFunction = function(){
         $('body').removeClass('bodyload');
         currentLocationName = recentSearch;
         circleMenu();
+        if(recentSearch.indexOf("India") != -1){
+            $(".categoryItem4 .cirleIcon").removeClass("attrny");
+            $(".categoryItem4 strong").text("Photography");
+        } else {
+            $(".categoryItem4 .cirleIcon").addClass("attrny");
+            $(".categoryItem4 strong").text("Attorneys");
+        }
     }else{
         getLocation(latitude, longitude);
         circleMenu();
@@ -50,35 +57,36 @@ function getLocation(lat, lng) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
           var arrAddress = results;
-          $.each(arrAddress, function(i, address_component) {
-            if (address_component.types[0] == "political" || address_component.types[0] == "locality") {
-              $("#pac-input").val(address_component.address_components[0].long_name);
-              $('body').removeClass('bodyload');
-              if(gotUserLocation)
-                  currentLocationName = address_component.address_components[0].long_name;
-              else
-                  currentLocationName = null;
-            }
-            if (address_component.types[0] == "country") {
-                 country = address_component.address_components[0].long_name;
-                 w30mob.callNativeApp("savecountryname", JSON.stringify({"countryName":country}), function(data){
-                                      //alert(data);
+            if(arrAddress && arrAddress[0].address_components){
+                $.each(arrAddress[0].address_components, function(i, address_component){
+                    if (address_component.types[0] == "political" || address_component.types[0] == "locality") {
+                       $("#pac-input").val(address_component.address_components[0].long_name);
+                       $('body').removeClass('bodyload');
+                    if(gotUserLocation)
+                       currentLocationName = address_component.address_components[0].long_name;
+                    else
+                       currentLocationName = null;
+                    }
+                    if (address_component.types[0] == "country") {
+                       country = address_component.address_components[0].long_name;
+                       w30mob.callNativeApp("savecountryname", JSON.stringify({"countryName":country}), function(data){
+                                            //alert(data);
+                                            });
+                    }
                 });
-            }
-          });
-            if(country == "India"){
-                     $(".categoryItem4 .cirleIcon").css("src", "../img/catagoryIcon4-hover.png");
-                     $(".categoryItem4 strong").text("Photography");
-            } else {
-                     $(".categoryItem4 .cirleIcon").css("src", "../img/catagoryIcon01-hover.png");
-                     $(".categoryItem4 strong").text("Attorneys");
-            }
+            }
             if($("#pac-input").val().length == 0){
-              //alert("Not able to get your locality name");
                 $(".popContent h2").text("Get Location");
                 $(".popContent strong").text("");
                 $(".popContent span").text("Not able to get your locality name.");
                 $(".pop_up").show();
+            }
+            if(country == "India"){
+                     $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                     $(".categoryItem4 strong").text("Photography");
+            } else {
+                     $(".categoryItem4 .cirleIcon").addClass("attrny");
+                     $(".categoryItem4 strong").text("Attorneys");
             }
           $('body').removeClass('bodyload');
         } else {
@@ -290,6 +298,13 @@ $('.gpsIcon').on("click", function(){
     });
     locationType = "true";
     startFunc();
+    if(country == "India"){
+                 $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                 $(".categoryItem4 strong").text("Photography");
+    } else {
+                 $(".categoryItem4 .cirleIcon").addClass("attrny");
+                 $(".categoryItem4 strong").text("Attorneys");
+    }
 });
 var input = (document.getElementById('pac-input'));
 var autocomplete = new google.maps.places.Autocomplete(input);
@@ -321,6 +336,13 @@ autocomplete.addListener('place_changed', function() {
                 //alert(data);
             });
         });
+        if($("#pac-input").val().indexOf("India") != -1){
+                         $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                         $(".categoryItem4 strong").text("Photography");
+        } else {
+                         $(".categoryItem4 .cirleIcon").addClass("attrny");
+                         $(".categoryItem4 strong").text("Attorneys");
+        }
     }
 });
 
