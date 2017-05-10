@@ -75,7 +75,6 @@ function getLocation(lat, lng) {
                     }
                 });
             }
-
             if($("#pac-input").val().length == 0){
                 $(".popContent h2").text("Get Location");
                 $(".popContent strong").text("");
