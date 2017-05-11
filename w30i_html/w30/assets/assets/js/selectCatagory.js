@@ -57,24 +57,22 @@ function getLocation(lat, lng) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
           var arrAddress = results;
-            if(arrAddress && arrAddress[0].address_components){
-                $.each(arrAddress[0].address_components, function(i, address_component){
-                    if (address_component.types[0] == "political" || address_component.types[0] == "locality") {
-                       $("#pac-input").val(address_component.address_components[0].long_name);
-                       $('body').removeClass('bodyload');
-                    if(gotUserLocation)
-                       currentLocationName = address_component.address_components[0].long_name;
-                    else
-                       currentLocationName = null;
-                    }
-                    if (address_component.types[0] == "country") {
-                       country = address_component.address_components[0].long_name;
-                       w30mob.callNativeApp("savecountryname", JSON.stringify({"countryName":country}), function(data){
-                                            //alert(data);
-                                            });
-                    }
-                });
-            }
+                     $.each(arrAddress, function(i, address_component) {
+                            if (address_component.types[0] == "political" || address_component.types[0] == "locality") {
+                            $("#pac-input").val(address_component.address_components[0].long_name);
+                            $('body').removeClass('bodyload');
+                            if(gotUserLocation)
+                            currentLocationName = address_component.address_components[0].long_name;
+                            else
+                            currentLocationName = null;
+                            }
+                            if (address_component.types[0] == "country") {
+                            country = address_component.address_components[0].long_name;
+                            w30mob.callNativeApp("savecountryname", JSON.stringify({"countryName":country}), function(data){
+                                                 //alert(data);
+                                                 });
+                            }
+                            });
             if($("#pac-input").val().length == 0){
                 $(".popContent h2").text("Get Location");
                 $(".popContent strong").text("");

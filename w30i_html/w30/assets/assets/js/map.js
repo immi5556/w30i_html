@@ -869,14 +869,6 @@ var getDetails = function(){
                         firstname = fn;
                         w30mob.callNativeApp("getcountryname", null, function(cn){
                             country = cn;
-                            if(country == "India"){
-                                $("#sliderOutput3").addClass("active");
-                                             $(".menuList6").show();
-                                             $(".menuList8").hide();
-                            }else{
-                                             $(".menuList8").show();
-                                             $(".menuList6").hide();
-                            }
                             if(!latitude && !longitude){
                                 errorFunction();
                             }else{
@@ -928,10 +920,11 @@ var init = function(){
                         });
                     });
                     w30mob.callNativeApp("getrecentlocation", null, function(data){
+                            
                         if(data == "India" || data == "India#" || data.toLowerCase().indexOf("india") > -1){
                             $("#sliderOutput3").addClass("active");
-                            $(".menuList6").show();
-                            $(".menuList8").hide();
+                            $(".menuList6").css("display","block");
+                            $(".menuList8").css("display","none");
                         }else {
                             $(".menuList8").show();
                             $(".menuList6").hide();
