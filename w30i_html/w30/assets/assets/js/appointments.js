@@ -11,7 +11,7 @@ $('.tabModule').gbTab({
 $(".back").on("click", function(){
               $("body").addClass("bodyload");
               window.location.href = "selectCatagory.html";
-              });
+});
 
 var goBack = function(){
     $("body").addClass("bodyload");
@@ -130,18 +130,18 @@ var setView = function(data){
                                                            starWidth: "10px"
                                                            });
                           }else{
-                          $(".finishTab").append('<div class="appointBlock appointFinished"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="straRating"><strong>Rate your  Experience</strong><div class="ratingBlock"><div class="rateAppoitnment" id="'+item.appointmentId+'"></div><span class="submitRating"></span></div></div></div>');
+                          $(".finishTab").append('<div class="appointBlock appointFinished"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+item.address+'</p></div></div><div class="straRating"><strong>Rate your  Experience</strong><div class="ratingSec"><div class="ratingBlock"><div class="rateAppoitnment" id="'+item.appointmentId+'"></div></div><span class="submitRating"></span></div></div></div>');
                           $("#"+item.appointmentId).rateYo({
                                                            fullStar: true,
-                                                           starWidth: "10px"
+                                                           starWidth: "16px"
                                                            });
                           
                           $("#"+item.appointmentId).on("click", function(e){
                                                        e.stopPropagation();
                                                        var rating = Number($("#"+item.appointmentId).rateYo("option", "rating"));
                                                        if(!item.rating){
-                                                       $(this).next(".submitRating").show();
-                                                       $(this).next(".submitRating").on("click", function(){
+                                                       $(this).closest(".appointFinished").find(".submitRating").css("display","inline-block");
+                                                       $(this).closest(".appointFinished").find(".submitRating").on("click", function(){
                                                                                         var appointmentId = $(this).prev(".rateAppoitnment").attr('id');
                                                                                         submitRating(appointmentId, rating, item.subdomain);
                                                                                         $(".submitRating").hide();

@@ -301,12 +301,22 @@ var loadMap = function(docs){
                 $(".milesVal").text(customers[i].destinationDistance.toFixed(2)+" Miles");
             $(".companyAddr").text(companyAddr);
             //$(".website").attr("href","https://"+docs[i].subdomain+urlLink);
-            $(".phoneCall").on("click", function(){
-                    calling = "true";
-                    websiteBackButton = true;
-                    w30mob.callNativeApp("calling", JSON.stringify({"phoneNumber":docs[i].mobile}), function(data){
-                    });
-            });
+            if(customers[i].mobile){
+                if($(".phoneCall").hasClass("disable"))
+                    $(".phoneCall").removeClass("disable");
+                                                        
+                $(".phoneCall").on("click", function(){
+                    if(!$(".phoneCall").hasClass("disable")){
+                        calling = "true";
+                        websiteBackButton = true;
+                        w30mob.callNativeApp("calling", JSON.stringify({"phoneNumber":docs[i].mobile}), function(data){
+                        });
+                    }
+                });
+            }else{
+                $(".phoneCall").addClass("disable");
+            }
+            
             $(".website").on("click", function(){
                     website = "true";
                     websiteDomain = docs[i].subdomain;
