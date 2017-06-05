@@ -72,9 +72,15 @@
   $('#map').height(Wh);
   
   $('.directionArrowTop').on('click',function(){
-                             $('.serviceSection').animate({
-                                                          height:'330px'
-                                                          },500);
+                             var reqHeight = $('.serviceCont').outerHeight()+$('.serviceSection').outerHeight();
+                             if( reqHeight > 330){
+                                     reqHeight = reqHeight+20+"px"
+                             }else{
+                                     reqHeight = '330px';
+                              }
+                              $('.serviceSection').animate({
+                               height:reqHeight
+                              },500);
                              $('.directionArrowTop').hide();
                              $('.directionArrowBottom').show();
                              $('.shadow').show();
