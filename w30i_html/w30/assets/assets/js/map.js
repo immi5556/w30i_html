@@ -207,7 +207,7 @@ var loadMap = function(docs){
         var icon;
         sliderTime = moment().tz(abbrs[docs[i].timeZone]).add(minutesValue, "minutes").format("HH:mm");
         itemFound = jQuery.inArray( docs[i].subdomain, bookedSlotSubdomain );
-        if(docs[i].slotBookedAt.length){
+        if(docs[i].slotBookedAt && docs[i].slotBookedAt.length){
             if(docs[i].premium)
                 icon = "premiumCheckedInMarker2";
             else
@@ -228,7 +228,8 @@ var loadMap = function(docs){
             else
                 icon = "greenMarker2";
         }
-        
+        if(icon.length == 0)
+                icon = "redMarker2";
         var marker = new google.maps.Marker({
                                             position: myLatLng,
                                             map: map,
@@ -237,7 +238,7 @@ var loadMap = function(docs){
                                             });
         var itemFound = jQuery.inArray( docs[i].subdomain, bookedSlotSubdomain );
         if(docs[i].destinationDistance > milesValue){
-            if(docs[i].slotBookedAt.length || itemFound != -1)
+            if(docs[i].slotBookedAt && docs[i].slotBookedAt.length || itemFound != -1)
                 marker.setVisible(true);
             else
                 marker.setVisible(false);
@@ -316,13 +317,6 @@ var loadMap = function(docs){
             }else{
                 $(".phoneCall").addClass("disable");
             }
-            
-            $(".website").on("click", function(){
-                    website = "true";
-                    websiteDomain = docs[i].subdomain;
-                    websiteBackButton = true;
-                    window.location.href = "https://"+docs[i].subdomain+urlLink+"?source=IOSSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid;
-            });
             $(".businessHours").text("Business Hours: "+customers[i].startHour+" - "+customers[i].endHour);
             $(".directionArrowBottom").hide();
             $(".directionArrowTop").show();
@@ -396,10 +390,38 @@ var loadMap = function(docs){
                                  startDirection();
                 });
           }
-          if(!customers[i].slotBookedAt.length && moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD HH:mm") > (customers[i].nextSlotDate+" "+customers[i].nextSlotAt)){
+          if(customers[i].slotBookedAt && !customers[i].slotBookedAt.length && moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD HH:mm") > (customers[i].nextSlotDate+" "+customers[i].nextSlotAt)){
           getCustomerInfo(latitude, longitude, 60, 60, i, 0);
           }
           $('.shadow').show();
+          if(customers[i].subdomain.length == 0){
+                $(".btn_sch").hide();
+                $(".btn_dir").hide();
+                $(".btn_dirStp").hide();
+                $(".btn_cnt").show();
+                $(".slotTime").text("Next Slot At: Cannot Disclose.");
+                $(".phoneCall").addClass("disable");
+                $(".cntcLi").hide();
+                $(".website").addClass("disable");
+                $(".businessHours").text("Business Hours: Cannot Disclose.");
+                $(".btn_cnt").on("click", function(){
+                    notifyUser(customers[i].landing._uniqueid, customers[i].mobile, customers[i].companyEmail);
+                    $(".popContent h2").text("Contact Status");
+                    $(".popContent span").text("sent an email to admin user.");
+                    $(".pop_up").show();
+                });
+            }else{
+                $(".btn_cnt").hide();
+                $(".website").removeClass("disable");
+                $(".website").on("click", function(){
+                    $('body').addClass('bodyload');
+                    website = "true";
+                    websiteDomain = customers[i].subdomain;
+                    websiteBackButton = true;
+                    window.andapp.savewebsiteState(website);
+                    window.andapp.openLink("https://"+customers[i].subdomain+urlLink+"?source=AndroidSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid);
+                });
+            }
           }
           })(marker, subdomain, i));
     }
@@ -565,7 +587,7 @@ function updateMilesRadius(){
                       
                       var itemFound = jQuery.inArray( item.subdomain, bookedSlotSubdomain );
                       if( item.destinationDistance > milesValue){
-                      if(item.slotBookedAt.length || itemFound != -1)
+                      if(item.slotBookedAt && item.slotBookedAt.length || itemFound != -1)
                       markers[i].setVisible(true);
                       else
                       markers[i].setVisible(false);
@@ -592,7 +614,7 @@ function updateTimeRadius(min){
                       sliderTime = moment().tz(abbrs[item.timeZone]).add(minutesValue, "minutes").format("HH:mm");
                       var icon = "";
                       itemFound = jQuery.inArray( item.subdomain, bookedSlotSubdomain );
-                      if(item.slotBookedAt.length){
+                      if(item.slotBookedAt && item.slotBookedAt.length){
                       if(item.premium)
                       icon = "premiumCheckedInMarker2";
                       else
@@ -613,6 +635,8 @@ function updateTimeRadius(min){
                       else
                       icon = "greenMarker2";
                       }
+                      if(icon.length == 0)
+                        icon = "redMarker2";
                       markers[i].setIcon(localImagePath+""+icon+".png");
                       oldMarker = -1;
                       });
@@ -827,7 +851,7 @@ function getCustomerInfo(lat, lng, miles, min, index, timeline, callback){
                      callback(result);
                      }else{
                      var itemFound = jQuery.inArray( subDomains[index], bookedSlotSubdomain );
-                     if(customers[index].slotBookedAt.length){
+                     if(customers[index].slotBookedAt && customers[index].slotBookedAt.length){
                      if(customers[index].premium)
                      icon = "premiumCheckedInMarker2";
                      else
