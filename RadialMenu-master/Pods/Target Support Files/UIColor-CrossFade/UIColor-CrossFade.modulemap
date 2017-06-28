@@ -1,6 +1,0 @@
-framework module UIColor_CrossFade {
-  umbrella header "UIColor-CrossFade-umbrella.h"
-
-  export *
-  module * { export * }
-}
