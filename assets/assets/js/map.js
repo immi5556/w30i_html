@@ -220,7 +220,7 @@ var loadMap = function(docs){
                 icon = "premiumCheckedInMarker2";
             else
                 icon = "checkedInMarker2";
-        }else if(moment().tz(abbrs[docs[i].timeZone]).format("YYYY-MM-DD") != docs[i].nextSlotDate || docs[i].nextSlotAt > sliderTime){
+        }else if(docs[i].nextSlotDate != "" || docs[i].nextSlotAt != "No Slots" || moment().tz(abbrs[docs[i].timeZone]).format("YYYY-MM-DD") != docs[i].nextSlotDate || docs[i].nextSlotAt > sliderTime){
             if(docs[i].premium)
                 icon = "premiumRedMarker2";
             else
@@ -371,11 +371,14 @@ var loadMap = function(docs){
                                  startDirection();
                 });
               }else{
-                if(moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate)
-                  $(".slotTime").text("Next Slot At: "+moment(customers[i].nextSlotDate).format("MM/DD")+" "+customers[i].nextSlotAt);
+                if(customers[i].nextSlotDate != "" || customers[i].nextSlotAt != "No Slots" || moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate)
+                  $(".slotTime").text("Next Slot At: "+(customers[i].nextSlotDate.length != 0 ? moment(customers[i].nextSlotDate).format("MM/DD") : '')+" "+customers[i].nextSlotAt);
                 else
                   $(".slotTime").text("Next Slot At: "+customers[i].nextSlotAt);
-                $(".btn_sch").show();
+                if(customers[i].nextSlotDate != "" && customers[i].nextSlotAt != "No Slots")
+                    $(".btn_sch").show();
+                else
+                    $(".btn_sch").hide();
                 $(".btn_dir").hide();
                 $(".btn_dirStp").hide();
                 $(".btn_sch").off().on("click", function(){
@@ -627,7 +630,7 @@ function updateTimeRadius(min){
                       icon = "premiumCheckedInMarker2";
                       else
                       icon = "checkedInMarker2";
-                      }else if(moment().tz(abbrs[item.timeZone]).format("YYYY-MM-DD") != item.nextSlotDate || item.nextSlotAt > sliderTime){
+                      }else if(item.nextSlotDate != "" || item.nextSlotAt != "No Slots" || moment().tz(abbrs[item.timeZone]).format("YYYY-MM-DD") != item.nextSlotDate || item.nextSlotAt > sliderTime){
                       if(item.premium)
                       icon = "premiumRedMarker2";
                       else
@@ -731,7 +734,7 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                                                 bookedSlotSubdomain.splice(index, 1);
                                                 var icon = "";
                                                 sliderTime = moment().tz(abbrs[customers[i].timeZone]).add(minutesValue, "minutes").format("HH:mm");
-                                                if(moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate || customers[i].nextSlotAt > sliderTime){
+                                                if(customers[i].nextSlotDate != "" || customers[i].nextSlotAt != "No Slots" || moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate || customers[i].nextSlotAt > sliderTime){
                                                 if(customers[i].premium)
                                                 icon = "premiumRedMarker2";
                                                 else
@@ -864,7 +867,7 @@ function getCustomerInfo(lat, lng, miles, min, index, timeline, callback){
                      icon = "premiumCheckedInMarker2";
                      else
                      icon = "checkedInMarker2";
-                     }else if(moment().tz(abbrs[customers[index].timeZone]).format("YYYY-MM-DD") != customers[index].nextSlotDate || customers[index].nextSlotAt > sliderTime){
+                     }else if(customers[index].nextSlotDate != "" || customers[index].nextSlotAt != "No Slots" || moment().tz(abbrs[customers[index].timeZone]).format("YYYY-MM-DD") != customers[index].nextSlotDate || customers[index].nextSlotAt > sliderTime){
                      if(customers[index].premium)
                      icon = "premiumRedMarker2";
                      else
@@ -880,7 +883,7 @@ function getCustomerInfo(lat, lng, miles, min, index, timeline, callback){
                      if(oldMarker == index && $(".serviceSection").height() > 0){
                      itemFound = jQuery.inArray( subDomains[index], bookedSlotSubdomain );
                      if(itemFound < 0 && moment().tz(abbrs[customers[index].timeZone]).format("YYYY-MM-DD") != customers[index].nextSlotDate){
-                     $(".slotTime").text("Next Slot At: "+moment(customers[index].nextSlotDate).format("MM/DD")+" "+customers[index].nextSlotAt);
+                     $(".slotTime").text("Next Slot At: "+(customers[index].nextSlotDate.length != 0 ? moment(customers[index].nextSlotDate).format("MM/DD") : '')+" "+customers[index].nextSlotAt);
                      }else if(itemFound < 0 && customers[index].nextSlotAt){
                      $(".slotTime").text("Next Slot At: "+customers[index].nextSlotAt);
                      }
