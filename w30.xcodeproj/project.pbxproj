@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5502F82D1F0629A9007625F8 /* 640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 5502F8291F0629A9007625F8 /* 640x1136.png */; };
+		5502F82E1F0629A9007625F8 /* Harpy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5502F82A1F0629A9007625F8 /* Harpy.bundle */; };
+		5502F82F1F0629A9007625F8 /* Harpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502F82C1F0629A9007625F8 /* Harpy.m */; };
 		DB60057A1DEA9DAD0057C35A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6005791DEA9DAD0057C35A /* AppDelegate.swift */; };
 		DB60057C1DEA9DAD0057C35A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB60057B1DEA9DAD0057C35A /* ViewController.swift */; };
 		DB60057F1DEA9DAD0057C35A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB60057D1DEA9DAD0057C35A /* Main.storyboard */; };
@@ -19,6 +22,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5502F8281F0629A8007625F8 /* w30-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "w30-Bridging-Header.h"; sourceTree = "<group>"; };
+		5502F8291F0629A9007625F8 /* 640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 640x1136.png; sourceTree = "<group>"; };
+		5502F82A1F0629A9007625F8 /* Harpy.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Harpy.bundle; sourceTree = "<group>"; };
+		5502F82B1F0629A9007625F8 /* Harpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Harpy.h; sourceTree = "<group>"; };
+		5502F82C1F0629A9007625F8 /* Harpy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Harpy.m; sourceTree = "<group>"; };
 		DB6005761DEA9DAC0057C35A /* w30.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = w30.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6005791DEA9DAD0057C35A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB60057B1DEA9DAD0057C35A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +72,10 @@
 		DB6005781DEA9DAC0057C35A /* w30 */ = {
 			isa = PBXGroup;
 			children = (
+				5502F8291F0629A9007625F8 /* 640x1136.png */,
+				5502F82A1F0629A9007625F8 /* Harpy.bundle */,
+				5502F82B1F0629A9007625F8 /* Harpy.h */,
+				5502F82C1F0629A9007625F8 /* Harpy.m */,
 				DBFA6CED1DFD2461005E6DA3 /* w30.entitlements */,
 				DB6005791DEA9DAD0057C35A /* AppDelegate.swift */,
 				DB60057B1DEA9DAD0057C35A /* ViewController.swift */,
@@ -74,6 +86,7 @@
 				DB60058D1DED4B290057C35A /* SharedStorage.swift */,
 				DB60058F1DED96960057C35A /* Utils.swift */,
 				DBCD130B1DEDD3F800DEF9D9 /* JsBridge.swift */,
+				5502F8281F0629A8007625F8 /* w30-Bridging-Header.h */,
 			);
 			path = w30;
 			sourceTree = "<group>";
@@ -111,6 +124,7 @@
 					DB6005751DEA9DAC0057C35A = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = F6VRM5EGZ9;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -150,6 +164,8 @@
 				DB60058C1DEAAB170057C35A /* assets in Resources */,
 				DB6005811DEA9DAD0057C35A /* Assets.xcassets in Resources */,
 				DB60057F1DEA9DAD0057C35A /* Main.storyboard in Resources */,
+				5502F82E1F0629A9007625F8 /* Harpy.bundle in Resources */,
+				5502F82D1F0629A9007625F8 /* 640x1136.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5502F82F1F0629A9007625F8 /* Harpy.m in Sources */,
 				DBCD130C1DEDD3F800DEF9D9 /* JsBridge.swift in Sources */,
 				DB60057C1DEA9DAD0057C35A /* ViewController.swift in Sources */,
 				DB60057A1DEA9DAD0057C35A /* AppDelegate.swift in Sources */,
@@ -289,6 +306,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = w30/w30.entitlements;
 				DEVELOPMENT_TEAM = F6VRM5EGZ9;
 				INFOPLIST_FILE = w30/Info.plist;
@@ -298,6 +316,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "172416e4-a131-4cc9-93fc-2beeb680dbe2";
 				PROVISIONING_PROFILE_SPECIFIER = WithIn30_AppStore_Profile;
+				SWIFT_OBJC_BRIDGING_HEADER = "w30/w30-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -307,6 +327,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = w30/w30.entitlements;
 				DEVELOPMENT_TEAM = F6VRM5EGZ9;
 				INFOPLIST_FILE = w30/Info.plist;
@@ -316,6 +337,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "172416e4-a131-4cc9-93fc-2beeb680dbe2";
 				PROVISIONING_PROFILE_SPECIFIER = WithIn30_AppStore_Profile;
+				SWIFT_OBJC_BRIDGING_HEADER = "w30/w30-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

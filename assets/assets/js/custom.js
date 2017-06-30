@@ -1,4 +1,6 @@
  (function(){
+  
+  //Chenges in commit....
   $('.form-row input').each(function(){
                             if($(this).val() > 0){
                             $(this).closest('.form-row').addClass('focus');

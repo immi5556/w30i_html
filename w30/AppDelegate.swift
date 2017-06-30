@@ -10,12 +10,20 @@ import UIKit
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, HarpyDelegate {
     
     var window: UIWindow?
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
+        Harpy.sharedInstance().presentingViewController = window?.rootViewController!
+        Harpy.sharedInstance().delegate = self
+        Harpy.sharedInstance().alertType = HarpyAlertType.option
+        Harpy.sharedInstance().isDebugEnabled = true
+        Harpy.sharedInstance().checkVersion()
+        
         if #available(iOS 10, *) {
             UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]){ (granted, error) in }
             application.registerForRemoteNotifications()
@@ -80,6 +88,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    // MARK: - HarpyDelegate
+    func harpyDidShowUpdateDialog() {
+        print("\(#function)")
+    }
+    
+    func harpyUserDidLaunchAppStore() {
+        print("\(#function)")
+    }
+    
+    func harpyUserDidSkipVersion() {
+        print("\(#function)")
+    }
+    
+    func harpyUserDidCancel() {
+        print("\(#function)")
+    }
+    
+    func harpyDidDetectNewVersionWithoutAlert(_ message: String) {
+        print("\(message)")
+    }
     
 }
 
