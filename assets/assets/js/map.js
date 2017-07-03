@@ -375,7 +375,7 @@ var loadMap = function(docs){
                 });
               }else{
                 if(moment().tz(abbrs[customers[i].timeZone]).format("YYYY-MM-DD") != customers[i].nextSlotDate)
-                  $(".slotTime").text("Next Slot At: "+(customers[i].nextSlotDate.length != 0 ? moment(customers[i].nextSlotDate).format("MM/DD") : '')+" "+customers[i].nextSlotAt);
+                  $(".slotTime").text("Next Slot At: "+((customers[i].nextSlotDate && customers[i].nextSlotDate.length != 0) ? moment(customers[i].nextSlotDate).format("MM/DD") : '')+" "+customers[i].nextSlotAt);
                 else
                   $(".slotTime").text("Next Slot At: "+customers[i].nextSlotAt);
                 if(customers[i].nextSlotDate != "" && customers[i].nextSlotAt != "No Slots")
@@ -886,7 +886,7 @@ function getCustomerInfo(lat, lng, miles, min, index, timeline, callback){
                      if(oldMarker == index && $(".serviceSection").height() > 0){
                      itemFound = jQuery.inArray( subDomains[index], bookedSlotSubdomain );
                      if(itemFound < 0 && moment().tz(abbrs[customers[index].timeZone]).format("YYYY-MM-DD") != customers[index].nextSlotDate){
-                     $(".slotTime").text("Next Slot At: "+(customers[index].nextSlotDate.length != 0 ? moment(customers[index].nextSlotDate).format("MM/DD") : '')+" "+customers[index].nextSlotAt);
+                     $(".slotTime").text("Next Slot At: "+((customers[index].nextSlotDate && customers[index].nextSlotDate.length != 0 ) ? moment(customers[index].nextSlotDate).format("MM/DD") : '')+" "+customers[index].nextSlotAt);
                      }else if(itemFound < 0 && customers[index].nextSlotAt){
                      $(".slotTime").text("Next Slot At: "+customers[index].nextSlotAt);
                      }
