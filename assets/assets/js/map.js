@@ -180,7 +180,7 @@ var errorFunction = function(){
     $(".popContent span").text("");
     $(".pop_up").show();
 }
-var getRealDistance = function(custLat, custLong){
+var getRealDistance = function(custLat, custLong, index){
 	    var data = {
 	        latitude: latitude,
 	        longitude: longitude,
@@ -201,6 +201,8 @@ var getRealDistance = function(custLat, custLong){
         request1.success(function(result) {
         	if(result.Status == "Success"){
         	    $(".milesVal").text((country == "India" ? ((result.Data*1.60934).toFixed(2)+' KMs') : result.Data.toFixed(2)+' Miles'));
+	     	    customers[index].destinationDistance = result.Data;
+        	    customers[index].roadDistance = true;
         	}
         });
         request1.fail(function(jqXHR, textStatus) {
@@ -457,7 +459,11 @@ var loadMap = function(docs){
                     window.andapp.openLink("https://"+customers[i].subdomain+urlLink+"?source=AndroidSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid);
                 });
             }
-            getRealDistance(customers[i].geo.coordinates[1], customers[i].geo.coordinates[0]);
+            if(customers[i].roadDistance){
+		    $(".milesVal").text((country == "India" ? ((customers[i].destinationDistance*1.60934).toFixed(2)+' KMs') : customers[i].destinationDistance.toFixed(2)+' Miles'));
+	     }else{
+		    getRealDistance(customers[i].geo.coordinates[1], customers[i].geo.coordinates[0], i);
+	      }
           }
           })(marker, subdomain, i));
     }
