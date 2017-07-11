@@ -214,7 +214,7 @@ var loadMap = function(docs){
     customers = docs;
     mapProp = {
     center:new google.maps.LatLng(latitude,longitude),
-    zoom:10,
+    zoom:12,
     mapTypeId:google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true
     };
@@ -238,7 +238,9 @@ var loadMap = function(docs){
         var icon;
         sliderTime = moment().tz(abbrs[docs[i].timeZone]).add(minutesValue, "minutes").format("HH:mm");
         itemFound = jQuery.inArray( docs[i].subdomain, bookedSlotSubdomain );
-        if(docs[i].slotBookedAt && docs[i].slotBookedAt.length){
+        if(docs[i].subdomain == ""){
+		icon = "newRegMarker2";
+	}else if(docs[i].slotBookedAt && docs[i].slotBookedAt.length){
             if(docs[i].premium)
                 icon = "premiumCheckedInMarker2";
             else
@@ -616,13 +618,13 @@ function changeCircle(){
 }
 function updateMilesRadius(){
     if(milesValue < 30 ){
-        map.setZoom(10);
+        map.setZoom(12);
     }
     if(milesValue < 20 ){
-        map.setZoom(11);
+        map.setZoom(13);
     }
     if(milesValue < 10 ){
-        map.setZoom(12);
+        map.setZoom(14);
     }
     
     customers.forEach(function(item, i){
@@ -656,7 +658,9 @@ function updateTimeRadius(min){
                       sliderTime = moment().tz(abbrs[item.timeZone]).add(minutesValue, "minutes").format("HH:mm");
                       var icon = "";
                       itemFound = jQuery.inArray( item.subdomain, bookedSlotSubdomain );
-                      if(item.slotBookedAt && item.slotBookedAt.length){
+                      if(item.subdomain == ""){
+			icon = "newRegMarker2";
+		      }else if(item.slotBookedAt && item.slotBookedAt.length){
                       if(item.premium)
                       icon = "premiumCheckedInMarker2";
                       else
@@ -755,7 +759,9 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                                      bookedSlotAt.push(result.startTime);
                                      bookedSlotDate.push(result.Data.selecteddate);
                                      bookedSlotSubdomain.push(result.Data.subdomain);
-                                     if(customers[i].premium){
+                                     if(customers[i].subdomain == ""){
+					icon = "newRegMarker2";
+				     }else if(customers[i].premium){
                                      markers[i].setIcon(localImagePath+"premiumCheckedInMarker2.png");
                                      }else{
                                      markers[i].setIcon(localImagePath+"checkedInMarker2.png");
@@ -893,7 +899,9 @@ function getCustomerInfo(lat, lng, miles, min, index, timeline, callback){
                      callback(result);
                      }else{
                      var itemFound = jQuery.inArray( subDomains[index], bookedSlotSubdomain );
-                     if(customers[index].slotBookedAt && customers[index].slotBookedAt.length){
+                     if(customers[index].subdomain == ""){
+			icon = "newRegMarker2";
+		     }else if(customers[index].slotBookedAt && customers[index].slotBookedAt.length){
                      if(customers[index].premium)
                      icon = "premiumCheckedInMarker2";
                      else
