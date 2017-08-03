@@ -453,12 +453,19 @@ var loadMap = function(docs){
                 $(".btn_cnt").hide();
                 $(".website").removeClass("disable");
                 $(".website").on("click", function(){
-                    $('body').addClass('bodyload');
-                    website = "true";
-                    websiteDomain = customers[i].subdomain;
-                    websiteBackButton = true;
-                    window.andapp.savewebsiteState(website);
-                    window.andapp.openLink("https://"+customers[i].subdomain+urlLink+"?source=AndroidSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid);
+                    //$('body').addClass('bodyload');
+                    w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
+                         
+                    });
+                    w30mob.callNativeApp("saveendusersubdomain", JSON.stringify({"endusersubdomain":customers[i].subdomain}), function(data){
+                    });
+                                 
+                    //website = "true";
+                    //websiteDomain = customers[i].subdomain;
+                    //websiteBackButton = true;
+                    //window.andapp.savewebsiteState(website);
+                    /*window.andapp.openLink("https://"+customers[i].subdomain+urlLink+"?source=AndroidSchedulePage&firstname="+firstname+"&email="+email+"&mobile="+mobilenumber+"&userid="+userid);*/
+                    window.location.href = "schedulePage.html";
                 });
             }
             if(customers[i].roadDistance){

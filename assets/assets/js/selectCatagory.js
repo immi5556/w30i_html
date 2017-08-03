@@ -203,7 +203,17 @@ $(".popContent").on("click", function(e){
 $(".pop_up, .closePop").on("click", function(){
                            $(".pop_up").hide();
                            });
-
+$(".businessLogin").on("click", function(){
+                       w30mob.callNativeApp("getsubdomain", null, function(subdomainName){
+                            if(subdomainName != "Nil" && subdomainName != "{}" && subdomainName.length > 0){
+                                w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"true"}), function(data){
+                                });
+                                window.location.href = 'schedulePage.html';
+                            }else{
+                                window.location.href = 'adminLogin.html';
+                            }
+                        });
+});
 $('.autoComplete .fa-search').click(function(){
                                     if($(".autoSearch2").val().length > 0){
                                     var matchFound = -1;

@@ -24,6 +24,9 @@ struct Keys {
     static let DeviceLatitude = "W30_DeviceLatitude"
     static let DeviceLongitude = "W30_DeviceLongitude"
     static let CountryName = "W30_CountryName"
+    static let Subdomain = "W30_Subdomain"
+    static let EndUserSubdomain = "W30_EndUserSubdomain"
+    static let AdminState = "W30_AdminState";
 }
 
 class SharedStorage {
@@ -223,6 +226,42 @@ class SharedStorage {
     static func SetCountryName(value: String) {
         let defaults = UserDefaults.standard
         defaults.set(value, forKey: Keys.CountryName)
+        defaults.synchronize()
+    }
+    static func GetSubdomain() -> String {
+        let defaults = UserDefaults.standard
+        if let token = defaults.string(forKey: Keys.Subdomain) {
+            return token
+        }
+        return "Nil";
+    }
+    static func SetSubdomain(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.Subdomain)
+        defaults.synchronize()
+    }
+    static func GetEndUserSubdomain() -> String {
+        let defaults = UserDefaults.standard
+        if let token = defaults.string(forKey: Keys.EndUserSubdomain) {
+            return token
+        }
+        return "Nil";
+    }
+    static func SetEndUserSubdomain(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.EndUserSubdomain)
+        defaults.synchronize()
+    }
+    static func GetAdminState() -> String {
+        let defaults = UserDefaults.standard
+        if let token = defaults.string(forKey: Keys.AdminState) {
+            return token
+        }
+        return "Nil";
+    }
+    static func SetAdminState(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.AdminState)
         defaults.synchronize()
     }
 }

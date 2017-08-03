@@ -59,6 +59,24 @@ class JsBridge {
         if vv?.lowercased() == "getcountryname" {
             retstr = GetCountryName()
         }
+        if vv?.lowercased() == "savesubdomain" {
+            retstr = SetSubdomain(dict: dict)
+        }
+        if vv?.lowercased() == "getsubdomain" {
+            retstr = GetSubdomain()
+        }
+        if vv?.lowercased() == "saveendusersubdomain" {
+            retstr = SetEndUserSubdomain(dict: dict)
+        }
+        if vv?.lowercased() == "getendusersubdomain" {
+            retstr = GetEndUserSubdomain()
+        }
+        if vv?.lowercased() == "saveadminstate" {
+            retstr = SetAdminState(dict: dict)
+        }
+        if vv?.lowercased() == "getadminstate" {
+            retstr = GetAdminState()
+        }
         if vv?.lowercased() == "getfirstname" {
             retstr = GetFirstName()
         }
@@ -199,6 +217,42 @@ class JsBridge {
     
     static func GetCountryName() -> String{
         return SharedStorage.GetCountryName();
+    }
+    
+    static func SetSubdomain(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["subdomain"] as? String{
+            SharedStorage.SetSubdomain(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetSubdomain() -> String{
+        return SharedStorage.GetSubdomain();
+    }
+    
+    static func SetEndUserSubdomain(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["endusersubdomain"] as? String{
+            SharedStorage.SetEndUserSubdomain(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetEndUserSubdomain() -> String{
+        return SharedStorage.GetEndUserSubdomain();
+    }
+    
+    static func SetAdminState(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["adminstate"] as? String{
+            SharedStorage.SetAdminState(value: vv)
+        }
+        return "Inserted";
+    }
+    
+    static func GetAdminState() -> String{
+        return SharedStorage.GetAdminState();
     }
     
     static func GetFirstName() -> String{
