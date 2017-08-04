@@ -1123,7 +1123,24 @@ socketio.on('connect', function () {
                                                                      });  
                         });
             
+            socketio.on('RegisSettingsChange', function(message) {
+                alert("Admin Has changed some settings. Click on ok to Refresh.");
+                window.location.reload();
             });
+            
+            socketio.on('subdomainChange', function(message) {
+                if(adminState){
+                    alert("Subdomain was changed by the admin. Please login again.");
+                    $(".signOut").click();
+                }else{
+                    alert("Subdomain was changed by the admin. Click on ok to Refresh.");
+                    w30mob.callNativeApp("savesubdomain", JSON.stringify({"subdomain":message.newSubdomain}), function(data){
+                    });
+
+                    window.location.reload();
+                }
+            });
+    });
 
 function goBack(){
     if($(".screen1").is(":visible")){
