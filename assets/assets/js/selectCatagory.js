@@ -356,7 +356,6 @@ autocomplete.addListener('place_changed', function() {
 
 
 $(".appointments").on("click", function(){
-                      $('body').addClass('bodyload');
                       window.location.href = "appointments.html";
                       });
 
