@@ -1,19 +1,6 @@
 var subdomain = "";
 var adminState = "";
 
-function goBack(){
-    if($(".screen1").is(":visible")){
-        w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
-        });
-        window.history.go(-1);
-    }else{
-        $('.clk-btn').click();
-    }
-}
-
-$(".back").on("click", function(){
-    goBack();
-});
 $(function(){
   var servurl = "https://services.within30.com/";              //"https://services.schejule.com:9095/"
   var sockurl = "https://socket.within30.com/";                //"https://util.schejule.com:9090/"
@@ -1146,7 +1133,7 @@ function goBack(){
     if($(".screen1").is(":visible")){
         w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
                              });
-        window.history.go(-1);
+        window.location.href = "selectCatagory.html";
     }else{
         $('.clk-btn').click();
     }
