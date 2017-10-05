@@ -11,36 +11,22 @@ var recentSearch;
 var currentLocationName, gotUserLocation, customeLocationName;
 var country = "";
 
-var circleMenu = function(){
-    var classesExist = $(".menu-button").attr("class").split(" ");
-    var matchFound = -1;
-    classesExist.forEach(function(item, index){
-                         if(item == "fa-bars"){
-                         matchFound = index;
-                         }
-                         });
-    if(matchFound != -1){
-        $(".menu-button").click();
-        finishrotate(50);
-    }
-}
-
 var successFunction = function(){
     if(recentSearch && locationType == "false"){
         $("#pac-input").val(recentSearch);
         $('body').removeClass('bodyload');
         currentLocationName = recentSearch;
-        circleMenu();
         if(recentSearch.indexOf("India") != -1){
             $(".categoryItem4 .cirleIcon").removeClass("attrny");
             $(".categoryItem4 strong").text("Photography");
+            $(".categoryItem4 img").attr("src", "assets/img/catagory-camera1.png");
         } else {
             $(".categoryItem4 .cirleIcon").addClass("attrny");
             $(".categoryItem4 strong").text("Attorneys");
+            $(".categoryItem4 img").attr("src", "assets/img/attorney.png");
         }
     }else{
         getLocation(latitude, longitude);
-        circleMenu();
     }
 }
 var errorFunction = function(){
@@ -80,11 +66,13 @@ function getLocation(lat, lng) {
                 $(".pop_up").show();
             }
             if(country == "India"){
-                     $(".categoryItem4 .cirleIcon").removeClass("attrny");
-                     $(".categoryItem4 strong").text("Photography");
+                $(".categoryItem4 .cirleIcon").removeClass("attrny");
+                $(".categoryItem4 .specName").text("Photography");
+                $(".categoryItem4 img").attr("src", "assets/img/catagory-camera1.png");
             } else {
-                     $(".categoryItem4 .cirleIcon").addClass("attrny");
-                     $(".categoryItem4 strong").text("Attorneys");
+                $(".categoryItem4 .cirleIcon").addClass("attrny");
+                $(".categoryItem4 .specName").text("Attorneys");
+                $(".categoryItem4 img").attr("src", "assets/img/attorney.png");
             }
           $('body').removeClass('bodyload');
         } else {
@@ -309,9 +297,11 @@ $('.gpsIcon').on("click", function(){
     if(country == "India"){
                  $(".categoryItem4 .cirleIcon").removeClass("attrny");
                  $(".categoryItem4 strong").text("Photography");
+                $(".categoryItem4 img").attr("src", "assets/img/catagory-camera1.png");
     } else {
                  $(".categoryItem4 .cirleIcon").addClass("attrny");
                  $(".categoryItem4 strong").text("Attorneys");
+        $(".categoryItem4 img").attr("src", "assets/img/attorney.png");
     }
 });
 var input = (document.getElementById('pac-input'));
@@ -371,136 +361,3 @@ var refreshOnForeground = function(){
 var locationChange = function(){}
 
 getServices();
-
-/*menu circle part*/
-var items = document.querySelectorAll('.circle a');
-for(var i = 0, l = items.length; i < l; i++) {
-    items[i].style.left = (50 - 35*Math.cos(-0.5 * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-    items[i].style.top = (50 + 35*Math.sin(-0.5 * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-}
-
-document.querySelector('.menu-button').onclick = function(e) {
-    e.preventDefault();
-    document.querySelector('.circle').classList.toggle('open');
-}
-
-var incr = -0.5;
-var rotate = function(){
-    setInterval(function(){
-                for(var i = 0, l = items.length; i < l; i++) {
-                items[i].style.left = (50 - 35*Math.cos(incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-                items[i].style.top = (50 + 35*Math.sin(incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-                }
-                if (incr < -1 || incr > 1){
-                incr = 1;
-                }
-                incr = incr - .1;
-                }, 100);
-}
-
-var finspeed, slowat, toutspeed = 10;
-var finishrotate = function(speed) {
-    slowat = 28;
-var recfinish = function(){
-    if (incr < -1 || incr > 1){
-        incr = 1;
-    }
-    incr = incr - .01;
-    if (direction){
-        for(var i = 0, l = items.length; i < l; i++) {
-            items[i].style.left = (50 - 35*Math.cos(-incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-            items[i].style.top = (50 + 35*Math.sin(-incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-        }
-    } else
-    {
-        for(var i = 0, l = items.length; i < l; i++) {
-            items[i].style.left = (50 - 35*Math.cos(incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-            items[i].style.top = (50 + 35*Math.sin(incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-        }
-    }
-    
-    slowat = slowat - 1;
-    if (slowat > 0){
-        setTimeout(recfinish, ++toutspeed);
-    }
-    
-};
-setTimeout(recfinish, toutspeed)
-}
-
-var rotate1 = function(pdir){
-    if (incr < -1 || incr > 1){
-        incr = 1;
-    }
-    incr = incr - .01;
-    if (pdir){
-        for(var i = 0, l = items.length; i < l; i++) {
-            items[i].style.left = (50 - 35*Math.cos(-incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-            items[i].style.top = (50 + 35*Math.sin(-incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-        }
-    } else
-    {
-        for(var i = 0, l = items.length; i < l; i++) {
-            items[i].style.left = (50 - 35*Math.cos(incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-            items[i].style.top = (50 + 35*Math.sin(incr * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
-        }
-    }
-}
-
-var direction = false;
-var element = document.getElementsByClassName('m1'), lastx = undefined; lasty= undefined;
-interact('.m1')
-.draggable({
-           onmove: function(event) {
-           if (event.clientX0 > event.clientX){
-           direction = true;
-           rotate1(true);
-           } else {
-           direction = false;
-           rotate1(false);
-           }
-           lastx = event.clientX;
-           lasty = event.clientY;
-           },
-           onend: function(event) {
-           finishrotate(event.speed);
-           }
-           });
-
-//for ios users static on click event for every menu item
-interact('.categoryItem1').on('tap', function (event) {
-                       $(".categoryItem1").click();
-                       
-                       event.preventDefault();
-                       });
-
-interact('.categoryItem2').on('tap', function (event) {
-                              $(".categoryItem2").click();
-                              
-                              event.preventDefault();
-                              });
-interact('.categoryItem3').on('tap', function (event) {
-                              $(".categoryItem3").click();
-                              
-                              event.preventDefault();
-                              });
-interact('.categoryItem4').on('tap', function (event) {
-                              $(".categoryItem4").click();
-                              
-                              event.preventDefault();
-                              });
-interact('.categoryItem5').on('tap', function (event) {
-                              $(".categoryItem5").click();
-                              
-                              event.preventDefault();
-                              });
-interact('.categoryItem6').on('tap', function (event) {
-                              $(".categoryItem6").click();
-                              
-                              event.preventDefault();
-                              });
-interact('.categoryItem8').on('tap', function (event) {
-                              $(".categoryItem8").click();
-                              
-                              event.preventDefault();
-                              });
