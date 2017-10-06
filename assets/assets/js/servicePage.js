@@ -25,7 +25,7 @@ $(".user").on("click", function(){
               $("body").removeClass("bodyload");
               });
 
-$(".menuList1").on("click", function(){
+$(".homeButton").on("click", function(){
                    $("body").addClass("bodyload");
                    window.location.href = "selectCatagory.html";
                    $("body").removeClass("bodyload");
