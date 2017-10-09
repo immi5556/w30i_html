@@ -232,7 +232,7 @@ $(".categoryItem3, .categoryItem1, .categoryItem2, .categoryItem4, .categoryItem
             e.stopPropagation();
             $('body').addClass('bodyload');
             var matchFound = -1;
-            var textVal = $(this).find("strong").text();
+            var textVal = $(this).find(".specName").text();
             services[0].forEach(function(item, index){
                if(item.name == textVal){
                     matchFound = index;
