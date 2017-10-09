@@ -18,11 +18,11 @@ var successFunction = function(){
         currentLocationName = recentSearch;
         if(recentSearch.indexOf("India") != -1){
             $(".categoryItem4 .cirleIcon").removeClass("attrny");
-            $(".categoryItem4 strong").text("Photography");
+            $(".categoryItem4 .specName").text("Photography");
             $(".categoryItem4 img").attr("src", "assets/img/catagory-camera1.png");
         } else {
             $(".categoryItem4 .cirleIcon").addClass("attrny");
-            $(".categoryItem4 strong").text("Attorneys");
+            $(".categoryItem4 .specName").text("Attorneys");
             $(".categoryItem4 img").attr("src", "assets/img/attorney.png");
         }
     }else{
@@ -296,11 +296,11 @@ $('.gpsIcon').on("click", function(){
     startFunc();
     if(country == "India"){
                  $(".categoryItem4 .cirleIcon").removeClass("attrny");
-                 $(".categoryItem4 strong").text("Photography");
+                 $(".categoryItem4 .specName").text("Photography");
                 $(".categoryItem4 img").attr("src", "assets/img/catagory-camera1.png");
     } else {
                  $(".categoryItem4 .cirleIcon").addClass("attrny");
-                 $(".categoryItem4 strong").text("Attorneys");
+                 $(".categoryItem4 .specName").text("Attorneys");
         $(".categoryItem4 img").attr("src", "assets/img/attorney.png");
     }
 });
@@ -336,10 +336,10 @@ autocomplete.addListener('place_changed', function() {
         });
         if($("#pac-input").val().indexOf("India") != -1){
                          $(".categoryItem4 .cirleIcon").removeClass("attrny");
-                         $(".categoryItem4 strong").text("Photography");
+                         $(".categoryItem4 .specName").text("Photography");
         } else {
                          $(".categoryItem4 .cirleIcon").addClass("attrny");
-                         $(".categoryItem4 strong").text("Attorneys");
+                         $(".categoryItem4 .specName").text("Attorneys");
         }
     }
 });
