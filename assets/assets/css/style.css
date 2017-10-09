@@ -518,10 +518,10 @@ nav a {
     background-size: 41px !important;
 }
 nav .homeButton  {
-    background: url(../img/settingsIcon.png) no-repeat center center;
+    background: url(../img/settingsIcon.png) no-repeat center left;
 }
 nav .viewAppointments {
-    background: url(../img/viewAppointments1.png) no-repeat center center;
+    background: url(../img/viewAppointments1.png) no-repeat center left;
 
 }
 nav .help {
