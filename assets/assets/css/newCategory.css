@@ -77,7 +77,7 @@
 
 nav {
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 45px;
     display: none;
     bottom: 0;
