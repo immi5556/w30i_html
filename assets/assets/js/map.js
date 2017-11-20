@@ -863,6 +863,16 @@ $(".menuList4, .menuList2, .menuList3, .menuList5, .menuList6, .menuList7, .menu
                                                                                }
                                                                                });
 
+$(".menu").click(function(){
+    if($(".user").hasClass("fa-user")){
+        $(".user").removeClass("fa-user").addClass("fa-home");
+        $("#catagorySelect").html("Menu");
+    }else{
+        $(".user").removeClass("fa-home").addClass("fa-user");
+        $("#catagorySelect").html(serviceName);
+    }
+});
+
 function startDirection(){
     if(directionStop == 0){
         directionsDisplay.setMap(map);
