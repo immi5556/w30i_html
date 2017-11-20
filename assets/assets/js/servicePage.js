@@ -21,15 +21,14 @@ $('.serviceSection').on('swipeup',function(){
 
 $(".user").on("click", function(){
               $("body").addClass("bodyload");
-              window.location.href = "editScreen.html";
+              if($(".user").hasClass("fa-user")){
+			window.location.href = "editScreen.html";
+		}else{
+			window.location.href = "selectCatagory.html";
+	    	}
               $("body").removeClass("bodyload");
               });
 
-$(".homeButton").on("click", function(){
-                   $("body").addClass("bodyload");
-                   window.location.href = "selectCatagory.html";
-                   $("body").removeClass("bodyload");
-                   });
 $(".settings").on("click", function(){
                   $("body").addClass("bodyload");
                   window.location.href = "location.html";
