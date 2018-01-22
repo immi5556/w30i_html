@@ -3,11 +3,116 @@ var w30Credentials = "win-HQGQ:zxosxtR76Z80";
 var latitude, longitude, userId, services = [];
 var country = "";
 var tabsCount = 0;
+var deleteAppointmentId, deleteAppointmentSubdomain;
 
 $('.tabModule').gbTab({
     tabUL:".tabMenu",
     tabCont:".tabContent"
-})
+});
+
+$(".pop_up, .closePop").on("click", function(){
+        $(".pop_up").hide();
+});
+
+$.fn.myDialog = function(opt){
+    var defaults = {
+    close:null,
+    closeBlock: null
+    },
+    set = $.extend({},defaults,opt);
+    
+    return this.each(function(){
+                     var $this = $(this),
+                     Wh = $(window).height() ? $(window).height() : screen.availHeight,
+                     Ww = $(window).width() ? $(window).width() : screen.availWidth,
+                     ContentH = $this.outerHeight(),
+                     ContentW = $this.outerWidth();
+                     
+                     init();
+                     function init(){
+                     open();
+                     resize();
+                     $('.btn-no').on('click',function(){
+                                     reset();
+                                     });
+                     $('.btn-yes').on('click',function(){
+                                      deleteAppointment();
+                                      });
+                     $(window).on('resize',resize);
+                     };
+                     
+                     function deleteAppointment(){
+                     $('#dialogbox').hide();
+                     if(deleteAppointmentId && deleteAppointmentSubdomain){
+                     $('body').addClass('bodyload');
+                     var request1 = $.ajax({
+                                           url: servurl + "endpoint/api/deleteslot",
+                                           type: "POST",
+                                           beforeSend: function (xhr) {
+                                           xhr.setRequestHeader ("Authorization", "Basic " + btoa(w30Credentials));
+                                           },
+                                           data: JSON.stringify({"id":deleteAppointmentId, "subDomain": deleteAppointmentSubdomain}),
+                                           contentType: "application/json; charset=UTF-8"
+                                           });
+                     request1.success(function(result) {
+                                      $('body').removeClass('bodyload');
+                                      reset();
+                                      if(result.Status == "Success"){
+                                        $(".popContent h2").text("Delete Appointment");
+                                        $(".popContent span").text(result.Status);
+                                        $(".pop_up").show();
+                                        $(set.closeBlock).closest(".appointBlock").remove();
+                                        if(!$(".pendingTab").has( ".appointBlock" )){
+                                            $("#noPending").css("display", "block");
+                                        }
+                                      }else{
+                                        $(".popContent h2").text("Delete Appointment");
+                                        $(".popContent span").text("Failed to delete. Try later.");
+                                        $(".pop_up").show();
+                                      }
+                                      });
+                     request1.fail(function(jqXHR, textStatus) {
+                                   $('body').removeClass('bodyload');
+                                   $(".popContent h2").text("Delete Appointment");
+                                   //$(".popContent strong").text("Failed");
+                                   $(".popContent span").text("Your request didn't go through. Please try again");
+                                   $(".pop_up").show();
+                                   
+                                   });
+                     }else{
+                     reset();
+                     $(".popContent h2").text("Delete Appointment");
+                     $(".popContent span").text("Invalid Data. Try later.");
+                     $(".pop_up").show();
+                     }
+                     }
+                     function reset(){
+                     $('#dialogbox').hide();
+                     $('.loadingShadow').hide();
+                     deleteAppointmentId = "";
+                     deleteAppointmentSubdomain = "";
+                     }
+                     function open(){
+                     $this.show();
+                     $('.loadingShadow').show();
+                     deleteAppointmentId = $(set.closeBlock).closest(".appointBlock").find(".apntmtid").text();
+                     deleteAppointmentSubdomain = $(set.closeBlock).closest(".appointBlock").find(".apntmtsubdomain").text();
+                     }
+                     
+                     function resize(){
+                     Wh = $(window).height() ? $(window).height() : screen.availHeight,
+                     Ww = $(window).width() ? $(window).width() : screen.availWidth,
+                     ContentH = $this.outerHeight(),
+                     ContentW = $this.outerWidth();
+                     $this.css({
+                               'top': (Wh - ContentH) / 2,
+                               'left':(Ww - ContentW) / 2
+                               });
+                     }
+                     
+                     
+                     });
+}
 
 $(".tabMenu li").on("click", function(){
     tabsCount++;
@@ -18,11 +123,7 @@ $(".back").on("click", function(){
 });
 
 var goBack = function(){
-    $("body").addClass("bodyload");
-    if(tabsCount == 0)
-        window.history.go(-1);
-    else
-        window.history.go(-2);
+    window.location.href = 'selectCatagory.html';
 }
 
 var refreshOnForeground = function(){
@@ -101,9 +202,9 @@ var setView = function(data){
                                 temp = item.destinationDistance+" miles away";
                          }
                          if(!item.destinationDistance || item.destinationDistance > 55){
-                         $(".pendingTab").append('<div class="appointBlock"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+(item.address.length > 0 ? item.address : "Address Not Provided")+'</p></div></div><div class="contBlockBottom"><span>'+temp+'</span></div></div>');
+                         $(".pendingTab").append('<div class="appointBlock"><span class="clsSec">x</span><div class="contBlock"><span class="apntmtid" style="display:none;">'+item.appointmentId+'</span><span class="apntmtsubdomain" style="display:none;">'+item.subdomain+'</span><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+(item.address.length > 0 ? item.address : "Address Not Provided")+'</p></div></div><div class="contBlockBottom"><span>'+temp+'</span></div></div>');
                          }else{
-                            $(".pendingTab").append('<div class="appointBlock"><div class="contBlock"><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+(item.address.length > 0 ? item.address : "Address Not Provided")+'</p></div></div><div class="contBlockBottom"><span>'+temp+'</span><a class="'+item.appointmentId+' '+item.businessType+'" href="#">View on map</a></div></div>');
+                            $(".pendingTab").append('<div class="appointBlock"><span class="clsSec">x</span><div class="contBlock"><span class="apntmtid" style="display:none;">'+item.appointmentId+'</span><span class="apntmtsubdomain" style="display:none;">'+item.subdomain+'</span><div class="contBlockSec"><h3>'+item.companyName+'</h3><p>'+item.selecteddate+' <span>'+item.starttime+'</span></p></div><div class="contBlockSec"><p>'+(item.address.length > 0 ? item.address : "Address Not Provided")+'</p></div></div><div class="contBlockBottom"><span>'+temp+'</span><a class="'+item.appointmentId+' '+item.businessType.replace(" ", "")+'" href="#">View on map</a></div></div>');
                          }
                          
                          $("."+item.appointmentId).on("click", function(){
@@ -126,6 +227,15 @@ var setView = function(data){
                                                       alert("No Category found.");
                                                       }
                                                       })
+                         $('.clsSec').on('click',function(eve){
+                                         var $this = eve.target;
+                                         $('#dialogbox').myDialog({
+                                                                  close:function(){
+                                                                  
+                                                                  },
+                                                                  closeBlock: $this
+                                                                  });
+                                         });
                          });
     
     finishedSlots.forEach(function(item, index){

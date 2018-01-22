@@ -97,8 +97,9 @@ autocomplete.addListener('place_changed', function() {
 });
 
 function goBack(){
-    $("body").addClass("bodyload");
-    window.history.back();
+    //$("body").addClass("bodyload");
+    //window.history.back();
+    window.location.href = 'servicePage.html';
 }
 
 var refreshOnForeground = function(){

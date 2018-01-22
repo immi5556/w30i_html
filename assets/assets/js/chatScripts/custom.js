@@ -1,3 +1,6 @@
+$('#q1-subdomain').keyup(function(){
+    this.value = this.value.toLowerCase();
+});
 var jss = {
 		questions: [
 			/*{
@@ -59,7 +62,8 @@ var jss = {
 		} 
 	});
 	function goBack(){
-        history.back();
+        //history.back();
+        window.location.href = 'selectCatagory.html';
     }
 	$(function(){
 	    var errorText;
@@ -86,9 +90,6 @@ var jss = {
 			$(".cht-wrap-you").hide();
 			$(".question").hide();
 			$(".q-welcome").show();
-			
-			//scroll down..
-			//scrollSmoothToBottom($('.cht-disp'), $(".cht-type"));
 			
 			$(jss.questions).each(function(){
 			    $('.cht-wrap-me').removeClass('highlight');
@@ -325,7 +326,7 @@ var jss = {
 					validerror = true;
 					callback();
 			    }else if(!isNaN(ttv)){
-				    errorText = 'Subdomain cannot be a number. It can be a combination of numbers and alphabets';
+				    errorText = 'Subdomain cannot be only number. It can be a combination of numbers and alphabets';
 					validerror = true;
 					callback();
 			    }else if(ttv.indexOf(" ") > -1){
@@ -720,12 +721,8 @@ var jss = {
                 });
         
                 request.success(function(result) {
-                    /*$('body').removeClass('loadingHome');
-                    $(".regisURL").html("<a href='https://registration.within30.com/" + (obj.landing._uniqueid)  + "' target='_blank'>https://registration.within30.com/" + (obj.landing._uniqueid)  + "</a>");
-                    $(".adminURL").html("<a href='https://" + (result.subdomain)  + ".within30.com/admin' target='_blank'>https://" + (result.subdomain)  + ".within30.com/admin</a>");
-        	        $(".endUserURL").html("<a href='https://" + (result.subdomain)  + ".within30.com' target='_blank'>https://" + (result.subdomain)  + ".within30.com</a>");
-        	        $('body').addClass("successPopUp");*/
-        	        showMessage("Successfully Registered. Your admin URL is: <a href='#' target='_blank'>https://" + (result.subdomain)  + ".within30.com/admin</a>. Use the following Pin to login: "+password+".", "success");
+        	        showMessage("Successfully Registered. Your admin URL is: https://" + (subdomain)  + ".within30.com/admin. Use the following Pin to login: "+password+". Click to <a class='businessLink' style='text-decoration:underline;'>Login</a>", "success");
+                    
                 });
                 request.fail(function(jqXHR, textStatus) {
                     showMessage("error while cupdate", "");
@@ -743,6 +740,15 @@ var jss = {
     			$(".cht-type").hide();
     			ansBlockHeight();
     			scrollToBottom("#cht-disp");
+                $(".businessLink").on("click", function(){
+                    w30mob.callNativeApp("savesubdomain", JSON.stringify({"subdomain":subdomain}), function(data){
+                                                           });
+                    w30mob.callNativeApp("saveadminemail", JSON.stringify({"adminemail":email}), function(data){
+                                                           });
+                    w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
+                                                           });
+                    window.location.href = "adminLogin.html";
+                });
 			}
 			if(type == "error"){
 			    $(".cht-type").hide();

@@ -12,6 +12,10 @@ w30mob.callNativeApp("saveoverlaystate", JSON.stringify({"overlayState":"true"})
                      //alert(data);
                      });
 
+$(".termsLink1 a").on("click", function(){
+    window.location.href = "terms.html";
+});
+
 var checkEmailBox = function(){
     if (!$(".email").val())	{
         $(".email").css({
@@ -111,6 +115,11 @@ var saveData = function(type){
 		//console.log("fill all fields");
 	}
 }
+
+$(".termsLink a").on("click", function(){
+    window.location.href = "terms.html";
+     //window.andapp.openLink("terms.html");
+});
 
 $(".sub-btn").on("click", function(){
     $('body').addClass('bodyload');

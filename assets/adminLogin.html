@@ -58,10 +58,32 @@
         <script type="text/javascript" src="assets/js/scheduleScript/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="assets/js/mob_render.js"></script>
         <script type="text/javascript">
+            var subdomainVal;
+            var email, mobile, subdomain, allowLogin = false;
+            
+            w30mob.callNativeApp("getsubdomain", null, function(subdomainName){
+                w30mob.callNativeApp("getadminstate", null, function(adminState){
+                    subdomainVal = subdomainName;
+                    subdomain = subdomainVal;
+                    w30mob.callNativeApp("getadminemail", null, function(adminEmail){
+                                         email = adminEmail;
+                                         
+                    if(email)
+                        $(".email").val(email);
+                    if(subdomainVal)
+                        $(".subdomain").val(subdomainVal);
+                    if(adminState == "true" && subdomainVal && subdomainVal.length){
+                        window.location.href = "selectCatagory.html";
+                    }
+                                         
+                    });
+                });
+            });
+        
             var servurl = "https://services.within30.com/";                //"https://services.schejule.com:9095/"
             var w30Credentials = "win-HQGQ:zxosxtR76Z80";
             var req = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            var email, mobile, subdomain, allowLogin = false;
+            
             function checkFields(){
                 if($(".subdomain").val().length < 3){
                     subdomain = "";
@@ -132,6 +154,8 @@
                                                                                                 w30mob.callNativeApp("savesubdomain", JSON.stringify({"subdomain":subdomain}), function(data){
                                                                                                                          });
                                                                                                 w30mob.callNativeApp("saveAdminState", JSON.stringify({"adminstate":"true"}), function(data){
+                                                                                                                     });
+                                                                                                w30mob.callNativeApp("saveadminemail", JSON.stringify({"adminemail":email}), function(data){
                                                                                                                      });
                                                                                                 window.location.href = "schedulePage.html";
                                                                                                 }else{

@@ -77,6 +77,12 @@ class JsBridge {
         if vv?.lowercased() == "getadminstate" {
             retstr = GetAdminState()
         }
+        if vv?.lowercased() == "saveadminemail" {
+            retstr = SetAdminEmail(dict: dict)
+        }
+        if vv?.lowercased() == "getadminemail" {
+            retstr = GetAdminEmail()
+        }
         if vv?.lowercased() == "getfirstname" {
             retstr = GetFirstName()
         }
@@ -251,8 +257,20 @@ class JsBridge {
         return "Inserted";
     }
     
+    static func SetAdminEmail(dict: [String: Any]?) -> String{
+        let data = Utils.convertJsonToDictionary(text: dict?["data"] as! String)
+        if let vv = data?["adminemail"] as? String{
+            SharedStorage.SetAdminEmail(value: vv)
+        }
+        return "Inserted";
+    }
+    
     static func GetAdminState() -> String{
         return SharedStorage.GetAdminState();
+    }
+    
+    static func GetAdminEmail() -> String{
+        return SharedStorage.GetAdminEmail();
     }
     
     static func GetFirstName() -> String{

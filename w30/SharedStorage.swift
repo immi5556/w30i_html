@@ -27,6 +27,7 @@ struct Keys {
     static let Subdomain = "W30_Subdomain"
     static let EndUserSubdomain = "W30_EndUserSubdomain"
     static let AdminState = "W30_AdminState";
+    static let AdminEmail = "W30_AdminEmail";
 }
 
 class SharedStorage {
@@ -262,6 +263,18 @@ class SharedStorage {
     static func SetAdminState(value: String) {
         let defaults = UserDefaults.standard
         defaults.set(value, forKey: Keys.AdminState)
+        defaults.synchronize()
+    }
+    static func GetAdminEmail() -> String {
+        let defaults = UserDefaults.standard
+        if let token = defaults.string(forKey: Keys.AdminEmail) {
+            return token
+        }
+        return "Nil";
+    }
+    static func SetAdminEmail(value: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: Keys.AdminEmail)
         defaults.synchronize()
     }
 }

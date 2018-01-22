@@ -37,12 +37,28 @@ var websiteBackButton = false;
 var reload = false;
 var country = "";
 
+$(".menu").click(function(){
+                 $(".search-icon").removeClass("fa-search");
+                 $(".search-icon").removeClass("fa-close");
+                 $(".search-icon").addClass("fa-home");
+                 $("#catagorySelect").html("Menu");
+                 });
+$(document).on('click','.fa-times',function(e){
+               $(this).removeClass('fa-times');
+               $(this).addClass('fa-bars');
+               $('.mynav').fadeOut();
+               $(".search-icon").removeClass("fa-home").addClass("fa-search");
+               $("#catagorySelect").html(serviceName);
+               });
+
 $(".serviceSection").swipe( {
                            swipeUp:function(event, direction, distance, duration) {
                            $('.directionArrowTop').hide();
                            $('.directionArrowBottom').show();
+                           var reqHeight = $('.serviceCont').outerHeight()+$('.serviceSection').outerHeight();
+                           reqHeight = reqHeight+20+"px";
                            $('.serviceSection').animate({
-                                                        height:'330px'
+                                                        height:reqHeight
                                                         },200);
                            },
                            swipeDown:function(event, direction, distance, duration) {
@@ -70,6 +86,73 @@ var abbrs = {
     IST : "Asia/Kolkata"
 };
 var email, mobilenumber, userid, firstname;
+
+function reset(){
+    $(".search-icon").removeClass("fa-close");
+    $(".search-icon").addClass("fa-search");
+    $(".input_filter").val('');
+    $('.dropdownWrap').hide();
+    $('.search-input').removeClass('open');
+    $('.search-input').width(34);
+}
+
+function searchLi(){
+    $(".businessBlocks li").on('click',function(){
+                               reset();
+                               var $this = $(this);
+                               
+                               markers.forEach(function(item, index){
+                                               if(item.title == $this.data('edata').fullName){
+                                               markers[index].setVisible(true);
+                                               if($this.data('edata').geo && $this.data('edata').geo.ll[0])
+                                               map.setCenter({lat:$this.data('edata').geo.ll[0], lng:$this.data('edata').geo.ll[1]});
+                                               google.maps.event.trigger(markers[index], 'click');
+                                               }
+                                               });
+                               });
+    $('.dropdownWrap').slimScroll({
+                                  height: '135px'
+                                  });
+    
+}
+
+var filterSearchField = document.querySelector('.input_filter');
+filterSearchField.onkeyup = function(e){
+    $('.dropdownWrap p').hide()
+    var e = e || window.event;
+    
+    if(e.keyCode != 38 && e.keyCode != 40){
+        if(this.value !='' && this.value !=' '){
+            getVal = this.value;
+            
+            var count = 0;
+            $(".businessBlocks li").each(function(){
+                                         var text = $(this).data('edata').fullName.toLowerCase();
+                                         
+                                         if(text.indexOf(getVal.toLowerCase()) !==-1){
+                                         $(this).show();
+                                         count++
+                                         }else{
+                                         $(this).hide();
+                                         count = count= 0 ? 0 : count--;
+                                         
+                                         }
+                                         //(text.indexOf(getVal.toLowerCase()) !==-1) ? $(this).show() : $(this).hide();
+                                         });
+            
+            if(count > 0) {
+                $('.dropdownWrap').show();
+            }else{
+                $('.dropdownWrap p').show();
+            }
+            
+        }else {
+            $('.dropdownWrap').hide();
+            //searchByName();
+        }
+    }
+}
+
 var getServices = function (){
     var request1 = $.ajax({
                           url: servurl + "endpoint/api/getmyservices",
@@ -234,6 +317,9 @@ var loadMap = function(docs){
      icon: localImagePath+"userLocationMarker.png"
      });*/
     for(var i = 0; i < docs.length; i++){
+        var LItem = $('<li>'+docs[i].fullName+'</li>');
+        LItem.data('edata',docs[i]);
+        $('.businessBlocks').append(LItem);
         var myLatLng = {lat: docs[i].geo.coordinates[1], lng: docs[i].geo.coordinates[0]}
         var icon;
         sliderTime = moment().tz(abbrs[docs[i].timeZone]).add(minutesValue, "minutes").format("HH:mm");
@@ -476,7 +562,7 @@ var loadMap = function(docs){
           }
           })(marker, subdomain, i));
     }
-    
+    searchLi();
     map.addListener('click', function() {
                     $(".serviceSection").animate({height:'0'},500);
                     $('.shadow').hide();
@@ -515,6 +601,18 @@ var loadMap = function(docs){
                     var markerIcon = markers[currentMarker].icon;
                     markers[currentMarker].setIcon(markerIcon.substring(0, markerIcon.length-5)+"2.png");
                     }
+                    customers.forEach(function(item, i){
+                                      
+                                      var itemFound = jQuery.inArray( item.subdomain, bookedSlotSubdomain );
+                                      if( item.destinationDistance > milesValue){
+                                      if(item.slotBookedAt && item.slotBookedAt.length || itemFound != -1)
+                                      markers[i].setVisible(true);
+                                      else
+                                      markers[i].setVisible(false);
+                                      }else{
+                                      markers[i].setVisible(true);
+                                      }
+                                      });
                     });
     changeCircle();
     
@@ -711,6 +809,7 @@ var calculateDifference = function(timeZone, result){
 }
 
 function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
+    $("body").addClass("bodyload");
     getAppointments(function(data){
                     var pendingSlotsCount = 0;
                     data.pendingSlots.forEach(function(item, index){
@@ -719,6 +818,7 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                                          }
                                          });
                     if(pendingSlotsCount != 0){
+                        $("body").removeClass("bodyload");
                         $(".popContent h2").text("Appointment Status");
                         $(".popContent strong").text("");
                         $(".popContent span").text("You already have a future appointment for this business. Cant book again.");
@@ -814,7 +914,6 @@ function bookSlot(subdomain, i, slotAt, timeZone, slotDate){
                                   });
                     }
                     });
-    $("body").removeClass("bodyload");
 }
 $(".popContent").on("click", function(e){
                     e.stopPropagation();
@@ -1071,9 +1170,10 @@ var getAppointments = function(callback){
 }
 
 function goBack(){
-    window.history.back();
+    /*window.history.back();
     if(websiteBackButton)
-        window.history.back();
+        window.history.back();*/
+    window.location.href = 'selectCatagory.html';
 }
 
 function locationChange(newLat, newLong){

@@ -1,5 +1,4 @@
-var subdomain = "";
-var adminState = "";
+
 
 $(function(){
   var servurl = "https://services.within30.com/";              //"https://services.schejule.com:9095/"
@@ -1129,6 +1128,9 @@ socketio.on('connect', function () {
             });
     });
 
+var subdomain = "";
+var adminState = "";
+
 function goBack(){
     if($(".screen1").is(":visible")){
         w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
@@ -1141,34 +1143,40 @@ function goBack(){
 
 $(".back").on("click", function(){
               goBack();
-});
-                w30mob.callNativeApp("getsubdomain", null, function(subdomainName){
-                    if(subdomainName != "Nil" && subdomainName != "{}" && subdomainName.length > 0){
-                        subdomain = subdomainName;
-                        w30mob.callNativeApp("getadminstate", null, function(state){
-                            if(state != "Nil" && state != "{}"){
-                                adminState = state;
-                                if(adminState && adminState == "true"){
-                                    $(".signOut").on("click", function(){
-                                        if(adminState && adminState == "true"){
-                                            w30mob.callNativeApp("savesubdomain", JSON.stringify({"subdomain":""}), function(data){
-                                                                                                });
-                                            w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":""}), function(data){
-                                                                                                });
-                                        }
-                                        goBack();
-                                    });
-                                    ajaxCall("getresources", {}, getresourcesAck);
-                                }else{
-                                    w30mob.callNativeApp("getendusersubdomain", null, function(subdomainName){
-                                                        subdomain = subdomainName;
-                                                         ajaxCall("getresources", {}, getresourcesAck);
-                                    });
-                                    $(".signOut").hide();
-                                }
-                            }
-                         });
-                        }
-                    });
+              });
+w30mob.callNativeApp("getsubdomain", null, function(subdomainName){
+                     if(subdomainName != "Nil" && subdomainName != "{}" && subdomainName.length > 0){
+                     subdomain = subdomainName;
+                     w30mob.callNativeApp("getadminstate", null, function(state){
+                                          if(state != "Nil" && state != "{}"){
+                                          adminState = state;
+                                          if(adminState && adminState == "true"){
+                                          $(".signOut").on("click", function(){
+                                                           if(adminState && adminState == "true"){
+                                                           w30mob.callNativeApp("savesubdomain", JSON.stringify({"subdomain":""}), function(data){
+                                                                                });
+                                                           w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
+                                                                                });
+                                                           }
+                                                           goBack();
+                                                           });
+                                          ajaxCall("getresources", {}, getresourcesAck);
+                                          }else{
+                                          w30mob.callNativeApp("getendusersubdomain", null, function(subdomainName){
+                                                               subdomain = subdomainName;
+                                                               ajaxCall("getresources", {}, getresourcesAck);
+                                                               });
+                                          $(".signOut").hide();
+                                          }
+                                          }
+                                          });
+                     }else{
+                     w30mob.callNativeApp("getendusersubdomain", null, function(subdomainName){
+                                          subdomain = subdomainName;
+                                          ajaxCall("getresources", {}, getresourcesAck);
+                                          });
+                     $(".signOut").hide();
+                     }
+                     });
                 
-})
+});

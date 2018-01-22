@@ -19,15 +19,9 @@ $('.serviceSection').on('swipeup',function(){
     $('.directionArrowBottom').show();
 });
 
-$(".user").on("click", function(){
-              $("body").addClass("bodyload");
-              if($(".user").hasClass("fa-user")){
-			window.location.href = "editScreen.html";
-		}else{
-			window.location.href = "selectCatagory.html";
-	    	}
-              $("body").removeClass("bodyload");
-              });
+$(".editProfile").on("click", function(){
+    window.location.href = "editScreen.html";
+});
 
 $(".settings").on("click", function(){
                   $("body").addClass("bodyload");
