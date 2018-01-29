@@ -1135,7 +1135,7 @@ function goBack(){
     if($(".screen1").is(":visible")){
         w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
                              });
-        window.location.href = "selectCatagory.html";
+        window.history.go(-1);
     }else{
         $('.clk-btn').click();
     }
@@ -1153,8 +1153,7 @@ w30mob.callNativeApp("getsubdomain", null, function(subdomainName){
                                           if(adminState && adminState == "true"){
                                           $(".signOut").on("click", function(){
                                                            if(adminState && adminState == "true"){
-                                                           w30mob.callNativeApp("savesubdomain", JSON.stringify({"subdomain":""}), function(data){
-                                                                                });
+                                                           
                                                            w30mob.callNativeApp("saveadminstate", JSON.stringify({"adminstate":"false"}), function(data){
                                                                                 });
                                                            }

@@ -73,31 +73,30 @@
   $(document).on('click','.search-icon',function(e){
                  e.stopPropagation();
                  if($(".search-icon").hasClass("fa-search") || $(".search-icon").hasClass("fa-close")){
-                 $('.search-input').toggleClass('open');
-                 $('.input_filter').val('');
-                 searchWidth();
-                 if($('.search-input').hasClass('open')){
-                 $('.input_filter').focus();
-                 
+                    $('.search-input').toggleClass('open');
+                    $('.input_filter').val('');
+                    searchWidth();
+                    if($('.search-input').hasClass('open')){
+                        $('.input_filter').focus();
+                    }else{
+                        $('.dropdownWrap').hide();
+                    }
+                    $('.dropdownWrap p').hide();
+                    if($(this).hasClass("fa-search")){
+                        $(this).removeClass("fa-search");
+                        $(this).addClass("fa-close");
+                    }else{
+                        $(this).removeClass("fa-close");
+                        $(this).addClass("fa-search");
+                        $(".input_filter").val('');
+                        $(".businessBlocks li").each(function(){
+                            $(this).hide();
+                        });
+                    }
                  }else{
-                 $('.dropdownWrap').hide();
+                    window.location.href = 'selectCatagory.html';
                  }
-                 $('.dropdownWrap p').hide();
-                 if($(this).hasClass("fa-search")){
-                 $(this).removeClass("fa-search");
-                 $(this).addClass("fa-close");
-                 }else{
-                 $(this).removeClass("fa-close");
-                 $(this).addClass("fa-search");
-                 $(".input_filter").val('');
-                 $(".businessBlocks li").each(function(){
-                                              $(this).hide();
-                                              });
-                 }
-                 }else{
-                 window.location.href = 'selectCatagory.html';
-                 }
-                 });
+});
   $(document).on('click','.search-sec',function(e){
                  e.stopPropagation();
                  });
