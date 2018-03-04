@@ -1,5 +1,5 @@
 var servurl = "https://services.within30.com/";     //"https://services.schejule.com:9095/"
-var sockurl = "https://socket.within30.com/";       //"https://socket.schejule.com:9090/"
+var sockurl = servurl;       //"https://socket.schejule.com:9090/"
 var w30Credentials = "win-HQGQ:zxosxtR76Z80";
 var serviceId = "";
 var serviceName = "";
